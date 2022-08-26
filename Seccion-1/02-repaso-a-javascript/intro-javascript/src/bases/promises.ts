@@ -1,6 +1,11 @@
 /* Promises */
-import { getHeroeById } from "./bases/imports-exports";
+import { getHeroeById } from "../bases/imports-exports";
 
+interface Heroe {
+    id: number;
+    name: string;
+    owner: string;
+  }
 
 /* const promesa = new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -15,11 +20,7 @@ promesa.then((h)=>{
 }).catch((err)=>{
     console.log(err,'Error')
 }) */
-interface Heroe {
-    id: number;
-    name: string;
-    owner: string;
-  }
+
 
 const getHeroByIdAsync = (id:number):Promise<Heroe> => {
     return new Promise((resolve, reject) => {
