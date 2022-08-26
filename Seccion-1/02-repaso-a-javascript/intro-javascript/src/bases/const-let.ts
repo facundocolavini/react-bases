@@ -1,4 +1,3 @@
-// Var and Const 
 
 const nombre: string = 'Facundo';
 const num: number = 5;
