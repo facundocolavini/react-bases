@@ -27,15 +27,16 @@ interface Titles {
     name?: string;
 }
 
-export const FirtsApp: React.FC<Titles> = ({title,subTitle, name}) => {
+export const FirtsApp = ({title,subTitle, name}: Titles): JSX.Element => {
 /*     if(!title) {
         throw new Error('El titulo no existe');
     } */
     
     return (
     <>
-        <h1>{title}</h1>
+        <h1 data-testid="test-title"> {title} </h1>
         {/* <code>{ JSON.stringify(msgObj) }</code> */}
+        <p>{subTitle}</p>
         <p>{subTitle}</p>
         <p>{name}</p>
     </>
@@ -50,7 +51,7 @@ FirtsApp.propTypes = {
 
 //Default Propts entran antes de nuestro propTypes
 FirtsApp.defaultProps = { // Si utilizo interface al poner valores default que no existen en mi interface dara un error
-    title: 'No hay titulo',
+    //title: 'No hay titulo',
     subTitle: 'No hay subtitulo',
     name: 'Facundo Colavini'
 }
