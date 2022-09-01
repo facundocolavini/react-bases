@@ -235,7 +235,7 @@ Para esto configuraremos babel siguiendo estos pasos:
     npm install --save-dev babel-jest @babel/core @babel/preset-env
 
  // TypeScript
-    npm install --save-dev @babel/preset-typescript
+    npm install --save-dev @babel/preset-typescript @babel/preset-react @babel/preset-env
 ```
 
 Creamos el siguiente archivo en la raiz de nuestro proyecto a la altura del package.json.

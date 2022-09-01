@@ -27,7 +27,7 @@
 # Iniciar una app de react con vite
 
 ```bash
-npm create vite@latest
+    npm create vite@latest my-react-app --template react-ts   y cd  carpeta-del-proyecto
 
 ```
 
