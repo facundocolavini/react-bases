@@ -11,7 +11,7 @@ import './styles.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <FirtsApp />
-        {/* <CounterApp value={1} /> */}
+        {/* <FirtsApp /> */}
+        <CounterApp value={1} />
     </React.StrictMode>
   )
