@@ -1,12 +1,13 @@
 import { ChangeEvent, ChangeEventHandler, useState, Dispatch, SetStateAction } from 'react';
 
 type Props = {
-    setCategories: Dispatch<SetStateAction<string[]>>
+    onNewCategory: (newCategory: string) => void,
+    currentCategory : string[]
 }
 
-const AddCategory = ({setCategories}: Props) => {
+const AddCategory = ({onNewCategory, currentCategory}: Props) => {
    
-    const [inputValue, setInputValue] = useState<string>('Keyboard') 
+    const [inputValue, setInputValue] = useState<string>('') 
 
     /* Handlers */
     const onHandleChange = ({target} :React.ChangeEvent<HTMLInputElement>):void=>{
@@ -16,15 +17,18 @@ const AddCategory = ({setCategories}: Props) => {
 
     const submitForm = (e: React.FormEvent) =>{ 
         e.preventDefault()
-        setCategories(categories =>[inputValue, ...categories])
+        const newInputValue = inputValue.trim() 
+        if( newInputValue.length <= 1) return;
+        onNewCategory(newInputValue)
+        setInputValue('')
     }
     
   return (    
-    <form onSubmit={submitForm}>
+    <form onSubmit={ submitForm }>
         <input 
             type="text"
             value={inputValue}
-            onChange={onHandleChange}
+            onChange={ onHandleChange }
             placeholder="Buscar gifs"
         />
     </form>
