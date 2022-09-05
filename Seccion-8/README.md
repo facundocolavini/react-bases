@@ -18,3 +18,7 @@
 - Simular llamadas a funciones
 
 - Evaluar si existen elementos en el componente
+
+## Configurar el ambiente de pruebas
+
+Ver :https://gist.github.com/Klerith/ca7e57fae3c9ab92ad08baadc6c26177
