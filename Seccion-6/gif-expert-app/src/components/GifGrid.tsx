@@ -6,6 +6,12 @@ type Props = {
     category: string,
 }
 
+type Gif = {
+  id?: string;
+  title : string;
+  url : string;
+}
+
 export const GifGrid = ({ category }: Props): JSX.Element => {
   const {images, isLoading } = useFetchGifs( category )
 
@@ -18,8 +24,8 @@ export const GifGrid = ({ category }: Props): JSX.Element => {
         
         {/* Tarea colocar dinamicamente el titulo de cada gif */}
         {
-          images.map((image) =>(
-            <GifItem  key={image.id} {...image}/>
+          images.map((image: Gif) =>(
+            <GifItem  key={image.id}{...image} />
           ))
         }
       </div>

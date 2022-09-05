@@ -13,11 +13,11 @@ interface imagesI {
 interface Gif {
   id: string,
   title: string,
-  url: imagesI,
+  url: string,
 }
 
 
-export const getGifs = async( category :string ) =>{
+export const getGifs = async( category :string ): Promise<Gif[]> =>{
 
 
     const url : string = `https://api.giphy.com/v1/gifs/search?api_key=UVWfkj9YKrlJA4MLHjqqL2Xt4u6NQQuD&q=${category}&limit=10`;
@@ -25,7 +25,7 @@ export const getGifs = async( category :string ) =>{
     const { data = [] } =  await resp.json();
     
     // Esta funcion recorre el array de gif armando un objeto con las propiedades que me interesan'
-    const gifs = data.map( (img: any) =>({
+    const gifs: Gif[] = data.map( (img : any) =>({
       id:  img.id,
       title: img.title,
       url: img.images.downsized_medium.url

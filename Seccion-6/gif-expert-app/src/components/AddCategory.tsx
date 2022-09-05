@@ -1,11 +1,11 @@
-import { ChangeEvent, ChangeEventHandler, useState, Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 type Props = {
     onNewCategory: (newCategory: string) => void,
-    currentCategory : string[]
 }
 
-export const AddCategory = ({onNewCategory, currentCategory}: Props) => {
+export const AddCategory = ({onNewCategory}: Props): JSX.Element => {
    
     const [inputValue, setInputValue] = useState<string>('') 
 
@@ -34,4 +34,6 @@ export const AddCategory = ({onNewCategory, currentCategory}: Props) => {
   )
 };
 
-
+AddCategory.propTypes = {
+    onNewCategory : PropTypes.func.isRequired 
+}

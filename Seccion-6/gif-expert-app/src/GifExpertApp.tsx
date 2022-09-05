@@ -22,7 +22,6 @@ export default function GifExpertApp({}: Props): JSX.Element {
       <h1>GifExpertApp</h1>
       <AddCategory 
         onNewCategory={ addCategorie }
-        currentCategory={ categories }
       />
       {categories?.map((c) =>
         (
