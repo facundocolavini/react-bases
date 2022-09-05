@@ -1,5 +1,25 @@
-export const getGifs = async( category :string ): Promise<object | string> =>{
-   
+interface urlImageI {
+  url: string,
+  width: string,
+  height: string,
+}
+
+interface imageOptionsI  {
+  downsized_medium: urlImageI 
+}
+interface imagesI {
+  images: imageOptionsI
+}
+interface Gif {
+  id: string,
+  title: string,
+  url: imagesI,
+}
+
+
+export const getGifs = async( category :string ) =>{
+
+
     const url : string = `https://api.giphy.com/v1/gifs/search?api_key=UVWfkj9YKrlJA4MLHjqqL2Xt4u6NQQuD&q=${category}&limit=10`;
     const resp : Response = await fetch( url )
     const { data = [] } =  await resp.json();

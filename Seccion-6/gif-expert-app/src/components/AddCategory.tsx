@@ -5,13 +5,12 @@ type Props = {
     currentCategory : string[]
 }
 
-const AddCategory = ({onNewCategory, currentCategory}: Props) => {
+export const AddCategory = ({onNewCategory, currentCategory}: Props) => {
    
     const [inputValue, setInputValue] = useState<string>('') 
 
     /* Handlers */
     const onHandleChange = ({target} :React.ChangeEvent<HTMLInputElement>):void=>{
-        console.log(target.value);
         setInputValue( target.value );
     }
 
@@ -36,4 +35,3 @@ const AddCategory = ({onNewCategory, currentCategory}: Props) => {
 };
 
 
-export default AddCategory;

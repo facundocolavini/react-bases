@@ -1,56 +1,28 @@
-import { useEffect, useState } from "react"
-import { getGifs } from "../helpers/getGifs"
+import { useFetchGifs } from "../hooks/useFetchGifs"
+import { GifItem } from "./GifItem"
 
 
 type Props = {
     category: string,
 }
 
+export const GifGrid = ({ category }: Props): JSX.Element => {
+  const {images, isLoading } = useFetchGifs( category )
 
-
-interface imageOptionsI  {
-  downsized_medium: urlImageI 
-}
-
-interface urlImageI {
-  urlImg: string,
-  weight: string,
-  height: string,
-}
-
-interface Gif {
-  id: string,
-  title: string,
-  url: urlImageI,
-}
-
-
-
-
-export const GifGrid = ({ category }: Props):  JSX.Element => {
-  const [image, setImages] = useState<string[]>([])
-  const getImages = ()=>{
-
-  }
-
-  // useEffect(() => {
-  //   getGifs(category)
-  //   .then((res) =>setImages(res))
-  // }, [])
-  
-
-  
   return (
     <>
       <h3>{category}</h3>  
-      <ol>
-
+      {isLoading }
+      {isLoading && <h2> Cargando...</h2>}
+      <div className="card-grid">
+        
         {/* Tarea colocar dinamicamente el titulo de cada gif */}
-        <li>titulo</li>
-        <li>titulo</li>
-        <li>titulo</li>
-        <li>titulo</li>
-      </ol>
+        {
+          images.map((image) =>(
+            <GifItem  key={image.id} {...image}/>
+          ))
+        }
+      </div>
     </>
   )
 }

@@ -1,6 +1,6 @@
-import { Dispatch, useState } from 'react';
-import AddCategory from './components/AddCategory';
-import {GifGrid}  from './components/GifGrid';
+import { useState } from 'react';
+import { AddCategory , GifGrid } from'./components'
+
 
 type Props = {
   
@@ -19,21 +19,19 @@ export default function GifExpertApp({}: Props): JSX.Element {
 
   return (
     <>
-      
-        <h1>GifExpertApp</h1>
-        <AddCategory 
-          onNewCategory={ addCategorie }
-          currentCategory={ categories }
-        />
-        <button type="submit">Agregar</button>
-        {categories?.map((c) =>
-          (
-            <GifGrid 
-              key={c} 
-              category={c}
-            />
-          )
-        )}
+      <h1>GifExpertApp</h1>
+      <AddCategory 
+        onNewCategory={ addCategorie }
+        currentCategory={ categories }
+      />
+      {categories?.map((c) =>
+        (
+          <GifGrid 
+            key={c} 
+            category={c}
+          />
+        )
+      )}
     </>
   )
 };

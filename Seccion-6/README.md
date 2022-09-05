@@ -8,18 +8,24 @@ Esta es una aplicación pequeña pero muy ilustrativa que explica cómo utilizar
 
 Esta aplicacion esta dividida en 3 partes:
 
-- GiftExpertApp
+- GiftExpertApp (Padre de toda mi app)
 - AddCategory
 - GifGrid
+- GifItem
+
+  ### AddCategory
+
+  - Contiene un formulario y un input para poder añadir categorias
 
   ### GifGrid
 
   - Este componente se encarga unicamente de mostrar una categoria
-
-  ### Componente ListGifComponente
-
   - Dentro tendra una lista
   - Este componente contendra otro componente que sea el que mueste el item. (GifItem)
+
+  ### GifItem
+
+  - Muestra cada Item (Gif)
 
   ## Estados
 
@@ -366,4 +372,93 @@ const getImages = async () => {
 useEffect(() => {
   getGifs(category);
 }, []);
+```
+
+## Custom Hook
+
+Un custom hook es un hook que creamos desde 0 , no es mas que una funcion que retorna valores. La idea es poder reutilizar codigo que tiene una funcionalizad especifica que en nuestra app se duplica constantemente. Los custom hook vendrian a resolver la duplicidad de codigo.
+Y evitamos llenar nestro componente de logica que no es necesaria , un componente se encarga de una funcionalidad.
+
+- Se utilizan asi en nuestros componentes:
+
+```js
+const { images, isLoading } = useFetchGifs(category); // Hook que busca gif basado en una categoria
+```
+
+Si nuestro custom hook no devuelve jsx dejar como extension ts.
+El hook dispara la renderizacion del componente cuando ve un cambio en el state.
+
+Para resumir un hook modulariza la logica extrayendolo del componente y que quede mas limpio.
+Con react 18 ya no renderiza 2 veces al tener 2 state en una funcion.
+
+### Mostrar un componente condicionalmente
+
+Hay varias formas de mostrar un componente dependiendo de una condicion.
+
+#### Por su className
+
+```js
+<h2 className={isLoading ? 'loading' : ''}>Cargando</h2>
+```
+
+#### Con ternario
+
+- El null no se renderiza en react.
+
+```js
+{
+  isLoading ? <h2> Cargando...</h2> : null;
+}
+
+// Con un and Logico
+{
+  isLoading && <h2> Cargando...</h2>;
+}
+```
+
+#### Crear un componente
+
+- Y este componente dentor hace la logica para mostrarse de manera condicional
+
+```js
+<LoadingMessage isLoading={isLoading} />
+```
+
+## Evitar muchas importanciones en nuestros componentes (Archivo barril)
+
+La idea es que nosotros tengamos centraizadas las exportacioned de nuestros componentes o directorios en un solo lugar.
+Cuando tengamos muchos custom hooks vamos a querer trabajar como trabaja React que llama todo de un solo lugar cuando quiero utilizarlo.
+
+**ASI QUEREMOS TRABAJAR NUESTRAS IMPORTACION DE ARCHIVOS:**
+
+```js
+import { useEffect, useState } from ' react ';
+```
+
+**Y EVITAR ESTO:**
+
+```js
+import { useEffect } from ' react ';
+import { useState } from ' react ';
+import { useLayout } from ' react ';
+import { useContext } from ' react ';
+import { useContext } from ' react ';
+```
+
+Para hacer esto debemos crear un archivo nuevo en la carpeta donde queremos agruparlos , creamos este archivo que se le dice "archivo de barril" o index.ts.El index es cuando hagamos una referencia a la carpeta de componente esto va a buscar por defecto el index.
+
+Dentro del index hacemos lo siguiente:
+
+```js
+export * from './AddCategory';
+export * from './GifGrid';
+export * from './GifItem';
+```
+
+Utilizandolo asi en nuestro archivo GifExpertApp
+
+- No hace falta ponerle el /index.ts
+
+```js
+import { AddCategory, GifGrid } from './components';
 ```
