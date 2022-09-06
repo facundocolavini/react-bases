@@ -7,7 +7,12 @@ interface Gif {
     url: string,
   }
 
-export const useFetchGifs = (category: string) => {
+interface useFetchReturn {
+    isLoading :  boolean,
+    images: Gif[]
+}
+
+export const useFetchGifs = (category: string) : useFetchReturn => {
     const [images, setImages] = useState<Gif[]>([])
     const [isLoading, setIsLoading] = useState<boolean>( true )
   

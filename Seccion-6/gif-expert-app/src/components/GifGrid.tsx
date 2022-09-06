@@ -1,5 +1,6 @@
 import { useFetchGifs } from "../hooks/useFetchGifs"
 import { GifItem } from "./GifItem"
+import PropTypes from 'prop-types';
 
 
 type Props = {
@@ -18,8 +19,8 @@ export const GifGrid = ({ category }: Props): JSX.Element => {
   return (
     <>
       <h3>{category}</h3>  
-      {isLoading }
-      {isLoading && <h2> Cargando...</h2>}
+      { isLoading }
+      { isLoading && <h2> Cargando...</h2> }
       <div className="card-grid">
         
         {/* Tarea colocar dinamicamente el titulo de cada gif */}
@@ -31,4 +32,8 @@ export const GifGrid = ({ category }: Props): JSX.Element => {
       </div>
     </>
   )
+}
+
+GifGrid.propTypes = {
+  category:  PropTypes.string.isRequired
 }

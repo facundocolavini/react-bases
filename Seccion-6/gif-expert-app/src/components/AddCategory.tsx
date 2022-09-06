@@ -14,7 +14,7 @@ export const AddCategory = ({onNewCategory}: Props): JSX.Element => {
         setInputValue( target.value );
     }
 
-    const submitForm = (e: React.FormEvent) =>{ 
+    const submitForm = (e: React.FormEvent) =>{
         e.preventDefault()
         const newInputValue = inputValue.trim() 
         if( newInputValue.length <= 1) return;
@@ -23,7 +23,7 @@ export const AddCategory = ({onNewCategory}: Props): JSX.Element => {
     }
     
   return (    
-    <form onSubmit={ submitForm }>
+    <form onSubmit={ submitForm } aria-label="form">
         <input 
             type="text"
             value={inputValue}

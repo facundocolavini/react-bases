@@ -10,7 +10,7 @@ describe(' Pruebas en getGifs()', () => {
         id: string,
         title: string,
         url: string,
-      }
+    }
 
     test('Debe  de retornar un arreglo de gifs', async() => {
         const category: string = ' One Punch';
@@ -24,4 +24,4 @@ describe(' Pruebas en getGifs()', () => {
             url: expect.any(String), // Siempre y cuando sea un string no importa que utl sea
         })
     })
-})
+})w
