@@ -11,8 +11,8 @@ type CounterStateType = {
 export default function CounterApp({}: Props) {
 //   const [counter, setCounter] = useState(10)
   // Inicializando el estado con un objeto 
-  const [counters setCounters] = useState
-    ({
+  const [{counter1, counter2, counter3}, setCounters] = useState({
+        
         counter1:10,
         counter2:20,
         counter3:30,
@@ -20,21 +20,21 @@ export default function CounterApp({}: Props) {
 
 
     const onAddCounters = () =>{
-        setCounters((prevState) => {
-            prevState.counter1 + 1
-            prevState.counter2 
-            prevState.counter3
-        } )
-    
+        setCounters(({counter1, counter2, counter3}) => ({
+                counter1:counter1 + 1,
+                counter2,
+                counter3
+            }
+        ));
     }
 
     return (
     <>
-        <h1>Counter 1: { counters.counter1 }</h1>
-        <h1>Counter 2: { counters.counter2 }</h1>
-        <h1>Counter 3: { counters.counter3 }</h1>
+        <h1>Counter 1: { counter1 }</h1>
+        <h1>Counter 2: { counter2 }</h1>
+        <h1>Counter 3: { counter3 }</h1>
         <hr />
-        <button className="btn btn-primary" onClick={()=>onAddCounters()}>+1</button>
+        <button className="btn btn-primary" onClick={onAddCounters}>+1</button>
     </>
   )
 }
