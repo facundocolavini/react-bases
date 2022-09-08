@@ -19,9 +19,14 @@ export const useForm = (initialForm: FormProps) => {
         })
     }
 
+    const onResetForm = (): void => {
+        setFormState( initialForm )
+    }
+
     return {
         ...formState,
         formState,
         onInputChange,
+        onResetForm
     }
 }

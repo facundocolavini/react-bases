@@ -423,7 +423,6 @@ Tener cuidado con esto ya que no arroja ningun warning en la consola.
 
 <br>
 <br>
-
 <hr>
 
 ## Formularios
@@ -539,3 +538,324 @@ const { username, password, email, onInputChange } = useForm({
 
 // const { username, email, password } = formState  // Ya no lo utilizamos asi por que obtenemos las proppiedades en el return del hook
 ```
+
+### REACT HOOK FORM 
+Para manejar formularios con react , esta libreria es interesante ya que es como una version parecida a nuestro custom hook form.
+Pero ya con codigo probado y esta elaborado para las necesidades de cualquier formulario.
+
+Investigar REACT HOOK FORM para utilizarla en nuestro formularios.
+
+[react-hook-form](https://react-hook-form.com/form-builder)
+
+<br>
+<br>
+<hr>
+
+## useFetch - Custom Hook 
+
+Vamos a comunicar varios hooks entre si. 
+Para eso vamos a hacer un nuevo componente que va a estar utilizando nuestro custom Hook counter y un nuevo custom hook que va hacer una peticion a la api de breaking bad.
+
+
+**Importante:**Al realizar un hook y llamarlo dentro del componente , nunca se debe de poner la llamada del hook dentro de un condicional o poner un if antes de un hook.Los hooks siempre se declaran primeros.
+
+
+### Return condicional de mi componente 
+
+Hay varias formas de mostrar cierta parte de mi jsx condicionalmente las cuales son:
+
+```js
+
+if(isLoading) {
+  return( <h2>Cargando</h2> )
+}
+
+{isLoading && <h2>Cargando</h2>}
+```
+
+Con ternario: 
+
+**RECOMENDACION:**
+Utilizarlo cuando tenemos pocas lineas de codigo para facilitar la lectura.
+
+
+```html
+{isLoading ?
+   <h2>Cargando...</h2>
+  : <h2> Hola Mundo </h2>
+}
+```
+Para renderizar un array con data :
+
+No recomendad:
+
+```html
+  <p className='mb-1'>{data[0].quote}</p>
+```
+
+**Recomendacion:** Podemos destructurar la data asegurando que no sea null la data ya que si es null javascript nos tirara un error.
+
+Doble negacion !! :
+Si nosotros tenemos una variable que es null y la negamos una vez nos pasa de null a true, si lo volvemos a negar nos da false. 
+
+```js
+let data: [] = null; // NULL 
+// Negamos una vez nos va a dar true
+!data // true
+// Negamos una segunda vez y ahora nos dara false
+!!data // false
+// Esto mismo aplica cuando tenemos undefined en vez de null
+```
+Entonces lo que estamos haciendo es transforma nuestra variable data de undefined o null a false.
+
+
+
+
+### useRef - Hook
+El useRef nos sirve para manejar un valor de alguna variable.Esta variable la podemos cambiar y trabajarla pero no dispara rerenderizaciones cuando hacemos un cambio. Es como un useState pero que no dispara la rerenderizacion otra vez.
+useRef devuelve un objeto ref mutable cuya propiedad .current se inicializa con el argumento pasado. El objeto devuelto se mantendrá persistente durante la vida completa del componente.
+
+El useRef tiene las siguientes caracteristicas: 
+
+ - Mantiene una referencia y cuando esta referencia cambia EVITA disparar un rerenderizado.
+ - Almacena valores 
+ - Mantiene la referencia a un elemento html
+  
+Caso de uso:
+
+ - Si queremos asegurarnos de que estamos seleccionando cierto elemento del dom 
+ - Evitamos duplicar codigo html unico
+
+Si tuvieramos varios input en un formulario (el cual es un componente) y queremos posicionar el foco en un input.
+Se podria utilizar queryselector y establecer una class o un id para cada id, pero esto no nos garantiza que nos va a traer el elemento (input) que necesitamos en particular.Por que al ser un componente vamos a utilizarlo en distintas partes , entonces los id  que establezcamos dentro de mi componente form se van a estar repitiendo donde utilicemos el componente formulario.
+
+ Entonces para este tipo de casos entra el uso de useRef.
+
+Casos de uso:
+- Controlar enfoques, selección de texto, o reproducción de medios.
+- Activar animaciones imperativas.
+- Integración con bibliotecas DOM de terceros.
+ 
+ El useRef es un objeto que dentro tiene un propiedad current, que si no le pasamos nada por parametro al useRef esta se setea como undefined.
+ Lo que necesitamos establecer en ese objeto current es lo que necesitamos mantener en el componente.Podemos setearle booleanos , array , etc.
+
+ ```js
+ const ref = useRef() //{current: undefined}
+
+ ```
+ Hacer una referencia a un elemento html: 
+
+ Podemos hacer una referencia con el atributo que nos da react llamado ref.
+
+ El inputRef siempre va apuntar a el elemento input que estamos haciendo referencia.
+ Tampoco vamos a tener conflicto si otro componente igual utiliza useRef , react no se va a confundir el elemento que queremos hacer referencia.
+
+ ```js
+  const inputRef: React.MutableRefObject<HTMLInputElement> = useRef()
+  const onFocusInput = () =>{
+    inputRef.current.select()
+  }
+
+ <!-- Referencia a mi input -->
+<input 
+  ref={ inputRef }
+  type="text"
+  placeholder="Ingrese su nombre"
+  className="form-control"
+/>
+
+<!-- 
+  inputRef:
+  {current: input.form-control} 
+ -->
+
+ ```
+
+ La idea del useRef es que tengamos una referencia que sea controlable.
+
+No se recomienda usarlo en estos casos: 
+- Acceder al nodo DOM de un hijo desde un componente padre
+
+
+ ### useLayoutEffect - Hook
+
+Es muy parecido a un useEffect con la gran diferencia que este dispara su callback de forma sincrona.Cuando renderizamos el componente y todas las mutaciones del dom terminan se dispara el useLayoutEffect.
+Las actualizaciones programadas dentro de useLayoutEffect se vaciarán sincrónicamente, antes de que el navegador tenga la oportunidad de pintar.
+
+**Recomendacion:** Se recomienda trabajar con el useEffect
+
+
+
+### Memo - Metodo de React
+
+Memo , sirve para evitar renderizados de componentes hijos que no se necesitan renderizar si el estado de su padre cambia.
+Usualmente se utiliza memo cuando : 
+
+ - Asegurarnos de que solo se redibuje si las propiedades de mi componente cambian.
+ - Solo memorizar componentes grandes y si tiene un proceso pesado que queremos hacer cuando sus propiedades cambian.
+
+El memo es una funcion de react que le dice memoriza a mi componente. Recibe como argumento mi componente que deseo memorizar.
+Y solo cuando las propiedades de mi componente memorizado cambian , se va a volver a renderizar.
+
+
+Esta forma no es tan comun de invocarlo pero de esta forma funciona en vite y debemos importarlo desde react sino nos arrojara un error de que React no esta definido:
+
+```js
+import { memo } from 'react';
+export const Small = memo(({count}: Props) => {
+
+  console.log('me volvi a dibujar :(')  
+  return (
+    <small>{ count }</small>
+  )
+})
+
+//Sino importamos react y lo hacemos de la forma tradicional
+import React from 'react';
+export const Small = React.memo(({count}: Props) => {
+
+  console.log('me volvi a dibujar :(')  
+  return (
+    <small>{ count }</small>
+  )
+})
+```
+**CREATE REACT APP:** 
+
+En CRA podemos utilizar el memo asi:
+
+No hace falta importarlo desde react ya que hace referencia a React en el contexto global.
+
+```js
+export const Small = React.memo(({count}: Props) => {
+  // si las props cambian se vuelve a renderizar
+  console.log('me volvi a dibujar :(')  
+  return (
+    <small>{ count }</small>
+  )
+})
+```
+
+### useMemo - Hook
+
+Nos auyuda a hacer el proceso de ciertas tareas pesadas.
+Evitamos un segundo dibujado de un proceso pesado
+
+Casos de uso : 
+
+  - Podemos evitar que al haber un cambio en mi componente evitar que se vuelva a ejecutar un proceso pesado
+
+La sintaxis es muy similar a la que tenemos en un useEffect comun, solo que en el use memo memorizamos un valor.
+
+Se puede hacer de esta forma con el hook useForm:
+
+```js
+const memorizedValue = useMemo(
+
+   ()=> heavyStuff( counter ) //Esta funcion del use memo debe siempre retornar algo si no, nos devolvera un undefined.
+
+,[counter])// Solo va a redibujar si las dependencias cambian
+
+```
+
+El use memo va a memorizar lo que sea que retorne y el valor memorizado se va a mantener asi a menos que las dependencias del useMemo() cambien.
+
+Si al array de dependencias lo coloco vacio solo se va a memorizar la primera vez que se renderize el componente.
+
+
+**Recomendacion:** Es muy recomendable utilizarlo cuando tenemos tareas muy pesadas que podemos ahorrarnosla si las podemos memorizar despues de la primera vez.
+
+
+### useCallback -  Hook 
+
+Si yo intentara memorizar una funcion declarada en mi componente padre y le pasamos esa funcion como propiedad a mi componente hijo al querer memorizar mi componente hijo, ya no podria ya que la funcion que le enviamos por prop desde mi padre siempre va a ser distinta por su referencia en memoria.
+useCallback esta dentro de la categoria de los hooks de memorizacion. A veces las funciones o bien los objetos siempre apuntan a direcciones de memoria diferentes por lo que cuando intentamos memorizar no podemos ya que cada valor en memoria es distinto.
+}
+
+
+El useCallback sirve para memorizar funciones , lo que regresa es una funcion que yo puedo ejecutar pero esa funcion memorizada solo se va a ejecutar cuando algo cambien.
+
+```js
+
+  const incrementFather = useCallback( // Asi memorizamos mi funcion
+    () => {
+      setCounter( counter + 1 ) // Funcion que se ejecuta una vez la primera vez
+  },
+    [])// Al pasarle el array de dependencia se ejecuta la primera vez 
+
+```
+Si le enviamos el array vacio en mi hook useCallback, vamos a estar diciendole que solo se ejecute la primera vez la funcion setCounter por lo que si volvemos a tocar el boton de incrementar no va a funcionar.
+Para arreglar eso debemos: 
+
+- Nuestro componente donde estamos mandando nuestra funcion memorizada via props tiene que tener React.memo. Sino nunca va a poder pegarle al mismo numero de referencaia en memoria .
+
+```js
+
+const ShowIncrement = React.memo(({ increment }: Props): JSX.Element => {
+    
+    console.log('Me volvi a generar :(');
+    
+
+    return (
+        <button 
+            className="btn btn-primary" 
+            onClick={()=> increment()}
+        >
+          +1
+        </button>
+    )
+})
+
+```
+
+```js
+const incrementFather = useCallback( // Asi memorizamos mi funcion
+    () => {
+      setCounter( (counter) => counter + 1 ) // De esta forma el useState permite pasarle un callback del valor actual del counter y modificarlo con useCallback 
+    [])
+```
+Funciona por que la funcion internamente sabe que va a tomar el valor actual del state y le va a sumar uno. 
+Entonces asi evitamos redibujar el componente de mi boton SI ES que no cambia mi estado de counter.
+
+Tambien podemos darle este uso: 
+Con useEffect 
+
+Con useEffect si memorizamos una funcion podemos utilizar tambien useEffect para escuchar si hay cambios en mi funcion memorizada para que se redibuje mi componente si esta cambia , esto NO provocara el bucle infinito ya que se hace referencia a la misma direccion de memoria donde esta mi funcion memorizada.
+
+**Importante:**Este codigo solo se debe hacer cuando memorizamos una funcion.
+
+```js
+
+useEffect(()=>{
+  incrementFather()
+},[incrementFather])
+
+```
+
+
+###  useCallback con argumento Hook
+
+Si necesitamos enviarle un argumento a mi funcion memorizada se lo pasamos asi: 
+
+```js
+const incrementFather = useCallback( // Asi memorizamos mi funcion
+    (value) => {
+      setCounter( (counter) => counter + 1 ) // De esta forma el useState permite pasarle un callback del valor actual del counter y modificarlo con useCallback 
+    [])
+
+
+
+const ShowIncrement = React.memo(({ increment }: Props): JSX.Element => {
+    
+    console.log('Me volvi a generar :(');
+    
+
+    return (
+        <button 
+            className="btn btn-primary" 
+            onClick={()=> increment( 5 )}
+        >
+          +1
+        </button>
+    )
+})
