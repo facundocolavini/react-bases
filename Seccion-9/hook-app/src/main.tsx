@@ -15,24 +15,31 @@ import { Memorize } from './06-memo/Memorize'
 import { MemoHook } from './06-memo/MemoHook'
 import { CallBackHook } from './06-memo/CallBackHook'
 import { Padre } from './07-tarea-memo/Padre'
+// import './08-useReducer/intro-reducer'
+import { TodoApp } from './08-useReducer/TodoApp'
 
 import './index.css'
+
+
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <>
 
-    {/* <HookApp /> */}
-    {/* <CounterApp /> */}
-    {/* <CounterWithCustomHook /> */}
-    {/* <SimpleForm/> */}
-    {/* <FormWithCustomHook/> */}
-    {/* <MultipleCustomHook/> */}
-    {/* <FocusScreen/> */}
-    {/* <Layout/> */}
-    {/* <Memorize/> */}
-    {/* <MemoHook/> */}
-    {/* <CallBackHook /> */}
+    {/*Seccion 9 
+    <HookApp />
+    <CounterApp />
+    <CounterWithCustomHook />
+    <SimpleForm/>
+    <FormWithCustomHook/>
+    <MultipleCustomHook/>
+    <FocusScreen/>
+    <Layout/>
+    <Memorize/>
+    <MemoHook/>
+    <CallBackHook />
     <Padre />
+    */}
+    <TodoApp/>
   </>
-
 )
+
