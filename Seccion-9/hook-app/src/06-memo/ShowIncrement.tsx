@@ -20,4 +20,3 @@ export const ShowIncrement = React.memo( ({increment} : Props): JSX.Element => {
     )
 })
 
-export default ShowIncrement

@@ -14,6 +14,8 @@ import { Layout } from './05-useLayoutEffect/Layout'
 import { Memorize } from './06-memo/Memorize'
 import { MemoHook } from './06-memo/MemoHook'
 import { CallBackHook } from './06-memo/CallBackHook'
+import { Padre } from './07-tarea-memo/Padre'
+
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -29,7 +31,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     {/* <Layout/> */}
     {/* <Memorize/> */}
     {/* <MemoHook/> */}
-    <CallBackHook/  >
+    {/* <CallBackHook /> */}
+    <Padre />
   </>
 
 )

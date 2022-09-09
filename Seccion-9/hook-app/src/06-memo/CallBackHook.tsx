@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useCounter } from '../hook/useCounter';
-import ShowIncrement from './ShowIncrement';
+import { ShowIncrement } from './ShowIncrement';
 
 
 export const CallBackHook = (): JSX.Element => {

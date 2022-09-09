@@ -1,4 +1,4 @@
-import  { HTMLAttributeReferrerPolicy, useRef } from 'react'
+import  { useRef } from 'react'
 
 type Props = {}
 

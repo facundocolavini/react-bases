@@ -20,7 +20,7 @@ export const MemoHook = () => {
     return (
         <>
             <h1>Counter:
-                <small>{ counter  }</small>             
+                <small>{ counter }</small>             
             </h1>
             <hr/>
             <h4>{ memorizedValue }</h4>
