@@ -22,12 +22,11 @@
 
 - useCallback
 
-<br>
-<br>
 <hr>
 
 ## Hook - useState
 
+<br>
 En el useState no siempre vamos a tener un valor primitivo, numeros , strings , array o objetos.
 
 Por eso este ejemplo:
@@ -97,10 +96,11 @@ Ya que si no lo hacemos en el caso del ejemplo counter2 y counter3 se pierden cu
 Hay que tener cuidado con el useState ya que mandemos a llamar la funcion que establece el nuevo valor del state literalmente lo que le mandemos ahi es el valor que va a tener el nuevo estado.
 
 <br>
-<br>
 <hr>
 
 ## useCounter - Custom Hook
+
+<br>
 
 Vamos a hacer un custom hook de nuestro counter.
 Para que vamos a hacer un custom hook:
@@ -141,8 +141,11 @@ const [counter] = useCounter(13);
 ```
 
 <br>
+<hr>
 
 ## Metodos del hook
+
+<br>
 
 La idea es que necesitamos exponer la funcionalidad para que alguien (ya sea otro programador) pueda manipular ese valor del counter.
 
@@ -182,9 +185,12 @@ export const useCounter = (initialValue: Props = 10) => {
 ```
 
 <br>
+<br>
+<hr>
 
 ## [Object object] en mi estado
 
+<br>
 Cuando tengamos un valor en mi estado de este tipo:
 
 state: "10[Object object]
@@ -226,6 +232,8 @@ Si necesitamos enviar el evento por parametro o algun otro parametro debemos esc
 
 ## Hook - useEffect
 
+<br>
+
 El useEffect tiene 3 partes :
 
 - Callback (Cuerpo de la funcion)
@@ -236,7 +244,11 @@ Vamos a trabajar con un formulario simple para eso cree mi componente SimpleForm
 Los useEffect sirven para disparar efectos secundarios de mi componente.
 Es una funcion que internamente tiene un callback este callback es la que se va ejecutar cada vez que el useEffect se dispare , osea cada vez que el estado cambie de mi componente.
 
-### Ciclo de vida - Array de Dependencias y Callback:
+<br>
+
+## Ciclo de vida - Array de Dependencias y Callback:
+
+<br>
 
 **IMPORTANTE:** NO SE RECOMIENDO USAR USEEFFECTS SIN NINGUNA DEPENDENCIA. SI NO SE TIENE NINGUNA DEPENDENCIA PONER EL ARRAY DE DEPENDENCIAS VACIO.
 
@@ -304,10 +316,11 @@ EJEMPLOS DE RECOMENDACION:
 ```
 
 <br>
+<hr/>
+
+## useEffect unmount Cleanup
+
 <br>
-
-### useEffect unmount Cleanup
-
 La funcion de return la utilizamos en la etapa de desmonte del componente, puede servir para:
 
 - Limpiar
@@ -497,6 +510,7 @@ Esto se puede ver asi:
 
 ### Formulario con Custom Hook
 
+<br>
 Vamos a realizar un custom Hook para evitar la repeticion de codigo de formularios en nuestra app.
 Para eso nuestro custom hook va a recibir Cual es el estado del formulario.
 
@@ -544,16 +558,13 @@ const { username, password, email, onInputChange } = useForm({
 Para manejar formularios con react , esta libreria es interesante ya que es como una version parecida a nuestro custom hook form.
 Pero ya con codigo probado y esta elaborado para las necesidades de cualquier formulario.
 
-Investigar REACT HOOK FORM para utilizarla en nuestro formularios.
-
-[react-hook-form](https://react-hook-form.com/form-builder)
-
 <br>
 <br>
 <hr>
 
 ## useFetch - Custom Hook
 
+<br>
 Vamos a comunicar varios hooks entre si.
 Para eso vamos a hacer un nuevo componente que va a estar utilizando nuestro custom Hook counter y un nuevo custom hook que va hacer una peticion a la api de breaking bad.
 
@@ -609,9 +620,20 @@ let data: [] = null; // NULL
 ```
 
 Entonces lo que estamos haciendo es transforma nuestra variable data de undefined o null a false.
+**Libreria react hook Form**
 
-### useRef - Hook
+Investigar REACT HOOK FORM para utilizarla en nuestro formularios.
+Es muy silimar a nuestro hook de userForm.
 
+[react-hook-form](https://react-hook-form.com/form-builder)
+
+<br>
+<br>
+<hr>
+
+## useRef - Hook
+
+<br>
 El useRef nos sirve para manejar un valor de alguna variable.Esta variable la podemos cambiar y trabajarla pero no dispara rerenderizaciones cuando hacemos un cambio. Es como un useState pero que no dispara la rerenderizacion otra vez.
 useRef devuelve un objeto ref mutable cuya propiedad .current se inicializa con el argumento pasado. El objeto devuelto se mantendrá persistente durante la vida completa del componente.
 
@@ -678,15 +700,25 @@ No se recomienda usarlo en estos casos:
 
 - Acceder al nodo DOM de un hijo desde un componente padre
 
-### useLayoutEffect - Hook
+<br>
+<br>
 
+<hr>
+
+## useLayoutEffect - Hook
+
+<br>
 Es muy parecido a un useEffect con la gran diferencia que este dispara su callback de forma sincrona.Cuando renderizamos el componente y todas las mutaciones del dom terminan se dispara el useLayoutEffect.
 Las actualizaciones programadas dentro de useLayoutEffect se vaciarán sincrónicamente, antes de que el navegador tenga la oportunidad de pintar.
 
 **Recomendacion:** Se recomienda trabajar con el useEffect
 
-### Memo - Metodo de React
+<br>
+<hr>
 
+## Memo - Metodo de React
+
+<br>
 Memo , sirve para evitar renderizados de componentes hijos que no se necesitan renderizar si el estado de su padre cambia.
 Usualmente se utiliza memo cuando :
 
@@ -727,8 +759,12 @@ export const Small = React.memo(({ count }: Props) => {
 });
 ```
 
-### useMemo - Hook
+<br>
+<hr>
 
+## useMemo - Hook
+
+<br>
 Nos ayuda a realizar el proceso de ciertas tareas pesadas.
 Evitamos un segundo dibujado de un proceso pesado
 
@@ -754,8 +790,13 @@ Si al array de dependencias lo coloco vacio solo se va a memorizar la primera ve
 
 **Recomendacion:** Es muy recomendable utilizarlo cuando tenemos tareas muy pesadas que podemos ahorrarnosla si las podemos memorizar despues de la primera vez.
 
-### useCallback - Hook
+<br>
+<br>
+<hr>
 
+## useCallback - Hook
+
+<br>
 Si yo intentara memorizar una funcion declarada en mi componente padre y le pasamos esa funcion como propiedad a mi componente hijo al querer memorizar mi componente hijo, ya no podria ya que la funcion que le enviamos por prop desde mi padre siempre va a ser distinta por su referencia en memoria.
 useCallback esta dentro de la categoria de los hooks de memorizacion. A veces las funciones o bien los objetos siempre apuntan a direcciones de memoria diferentes por lo que cuando intentamos memorizar no podemos ya que cada valor en memoria es distinto.
 
@@ -803,7 +844,7 @@ Con useEffect
 
 Con useEffect si memorizamos una funcion podemos utilizar tambien useEffect para escuchar si hay cambios en mi funcion memorizada para que se redibuje mi componente si esta cambia , esto NO provocara el bucle infinito ya que se hace referencia a la misma direccion de memoria donde esta mi funcion memorizada.
 
-**Importante:**Este codigo solo se debe hacer cuando memorizamos una funcion.
+**Importante:** Este codigo solo se debe hacer cuando memorizamos una funcion.
 
 ```js
 useEffect(() => {
@@ -811,8 +852,13 @@ useEffect(() => {
 }, [incrementFather]);
 ```
 
-### useCallback con argumento Hook
+<br>
+<br>
+<hr>
 
+## useCallback con argumento Hook
+
+<br>
 Si necesitamos enviarle un argumento a mi funcion memorizada se lo pasamos asi:
 
 ```js
