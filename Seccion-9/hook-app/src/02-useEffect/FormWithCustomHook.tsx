@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from '../hook/useForm';
-
+import { FormLoginType } from '@/interfaces'
 
 type Props = {};
 
 export const FormWithCustomHook = (props: Props) => {
-    
-    const { formState , username, password, email, onInputChange, onResetForm } = useForm({
+    const initialState : FormLoginType = {
         username: '',
         email: '',
         password: '',
-    })
+    }
+    const { formState , username, password, email, onInputChange, onResetForm } = useForm( initialState )
+
 
     // const { username, email, password } = formState
 

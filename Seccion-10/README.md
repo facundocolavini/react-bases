@@ -155,6 +155,13 @@ Cuando tenemos una accion que no logramos identificar en el reducer, significa q
 
 Al mutar el estado con push es una mala practica ya que react no nos va a redibujar nada y rompemos la estructura con que se maneja el reducer.
 
+Si nosotros tenemos un nuevo action que elimina un objeto de un array podemos utilizar filter ya que no mutara el array por que crea un array nuevo.
+
+```js
+     case 'remove-todo':// Disparo la accion de remove todo
+            return initialState.filter(todo => todo.id !== action.payload.id)
+```
+
 ```js
 // Los tipos del estado a usarse en el initialState
 interface TodoState {
@@ -217,7 +224,7 @@ const newTodo = {
 
 Hay un standar para definir las actions :
 El payload se conoce como la carga que esta en la accion.No siempre va a ir la propiedad payload dentro de mi action.
-Ej: Si queremos borrar o resetear los todos no hace falta utilizar el payload.
+Ej: Si queremos borrar o resetearlos todos no hace falta utilizar el payload.
 
 ```js
 // Modificamos el reducer para que maneje la accion que estamos queriendo realizar
@@ -273,4 +280,47 @@ const [state, dispatch] = useReducer(reducer, initialArg, init);
 
 **initialArg:** Es el estado inicial.
 
-**init:** Es una funcion de inicializacion , esta funcion se utiliza cuando tenemos un estado algo relativamente pesado. El resultado de esa funcion es lo que termina siendo el estado inicial.
+**init:** Es una funcion de inicializacion , esta funcion se utiliza cuando tenemos un estado relativamente pesado. El resultado de esa funcion es lo que termina siendo el estado inicial.
+
+```js
+//Ejemplo init
+//Cargamos un array de todos en el state de mi reducer si es que existe en el localStorage
+const init = ()=>{
+  return getTodoToLocal('todos') || [] as TodoStateI[] // Si devuelve null me pone un array vacio []
+}
+//Llamada
+ const [ todos, dispatchTodoAction ] = useReducer( todoReducer, initialState, init)
+```
+
+## Hacer persistente mi estado
+
+Para realizar esto en vez de realizar una variable harcode de mi initialState debemos guardar mi initialState en el localStorage para hacer persistente la data.Y poder hacer cambios desde ahi.
+El localStorage nunca se va a borrar a menos que se lo digamos por codigo.Tiene un tamaño de almacenamiento de entre 30 y 50 mb.Lo que grabamos son puros strings.
+Las cookies llegan en el servidor que va a procesar la peticion
+
+Para guardar en el localStorage
+
+```js
+export const getTodoToLocal = (key: string) => {
+  return JSON.parse(localStorage.getItem(key));
+};
+```
+
+Para obtener la informacion del localStorage:
+
+```js
+export const setTodoToLocal = (key: string, value: any) => {
+  localStorage.setItem(key, JSON.stringify(value));
+};
+```
+
+## Patron de emicion de nuestros componentes y props drilling
+
+Podemos trabajar con el patron en el cual nuestros componentes se encargan de emitir el valor o los eventos que esperamos.
+
+Ejemplo :
+Cuando nosotros hacemos el TodoAdd estamos esperando que se emita el onNewTodo y cuando esto sucede nuetro evento esta emitiendo un objeto del tipo todo y lo recibe el handleNewTodo en TodoApp para administrar el action y hacer el dispatch para mandar nuestras acciones al reducer.
+
+### Caso de props drilling
+
+En el caso del onHandleDelete tenemos que enviarle la funcion del padre al hijo y del hijo al nieto para poder obtener el id y poder eliminar el item. Esto dicho no va a suceder tanto utilizando redux o context API.Para asi evitar tener nuestro estado en el componente TodoApp y colocarlo en un estado global en el que cualquier componente va a poder acceder.

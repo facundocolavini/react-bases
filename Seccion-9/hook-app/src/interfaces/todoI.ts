@@ -1,10 +1,15 @@
 export interface TodoStateI {
-    id: number;
-    todo: string;
+    id: number | null ;
+    description: string;
     done: boolean;
 }
 
-export type ActionType = {
+export type ActionNewTodoType = {
     type?: string,
     payload?: TodoStateI,
+}
+
+export type ActionDeleteTodoType = {
+    type?: string,
+    payload?: number,
 }

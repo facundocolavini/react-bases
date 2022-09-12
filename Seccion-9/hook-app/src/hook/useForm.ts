@@ -1,13 +1,7 @@
 import { useState } from "react";
 
 
-type FormProps = {
-    username: string,
-    email:string,
-    password:string
-}
-
-export const useForm = (initialForm: FormProps) => {
+export const useForm = (initialForm) => {
     const [formState, setFormState] = useState( initialForm );
     
     //Inputs Handlers

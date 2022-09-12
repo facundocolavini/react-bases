@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-
+import { BrowserRouter} from 'react-router-dom'
 
 // Components
 import { CounterWithCustomHook } from './01-useState/CounterWithCustomHook'
@@ -19,6 +19,7 @@ import { Padre } from './07-tarea-memo/Padre'
 import { TodoApp } from './08-useReducer/TodoApp'
 
 import './index.css'
+import MainApp from './09-useContext/MainApp'
 
 
 
@@ -39,7 +40,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <CallBackHook />
     <Padre />
     */}
-    <TodoApp/>
+
+    {/* Seccion 10
+     <TodoApp/> 
+     */}
+     <BrowserRouter>
+      <MainApp />
+     </BrowserRouter>
   </>
 )
 
