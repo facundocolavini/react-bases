@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { FormLoginType } from '../interfaces';
 
-
-export const useForm = (initialForm) => {
-    const [formState, setFormState] = useState( initialForm );
+export const useForm = <T>(initialValues: T) => {
+    const [formState, setFormState] = useState<T>( initialValues );
     
     //Inputs Handlers
     const onInputChange = ({target} :React.ChangeEvent<HTMLInputElement>):void=>{
@@ -14,7 +14,7 @@ export const useForm = (initialForm) => {
     }
 
     const onResetForm = (): void => {
-        setFormState( initialForm )
+        setFormState( initialValues )
     }
 
     return {

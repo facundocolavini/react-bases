@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from '../hook/useForm';
-import { FormLoginType } from '@/interfaces'
+import { FormLoginType } from '../interfaces';
+
 
 type Props = {};
 

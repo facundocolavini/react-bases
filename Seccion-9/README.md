@@ -8,7 +8,7 @@
 
 - useCounter - Personalizado
 
--useEffect y sus precauciones
+- useEffect y sus precauciones
 
 - useRef
 

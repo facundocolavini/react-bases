@@ -3,7 +3,7 @@ interface AboutPage {
 
 }
 
-const AboutPage: React.FC<AboutPage> = (props: Props) => {
+export const AboutPage: React.FC<AboutPage> = (props: Props) => {
   return (
    <>
     <h1>AboutPage</h1>
@@ -11,4 +11,3 @@ const AboutPage: React.FC<AboutPage> = (props: Props) => {
    </>
   )
 }
-export default AboutPage;
