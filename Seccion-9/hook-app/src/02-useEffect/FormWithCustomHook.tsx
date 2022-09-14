@@ -3,15 +3,20 @@ import { useForm } from '../hook/useForm';
 import { FormLoginType } from '../interfaces';
 
 
-type Props = {};
+interface FormData {
+    username: string,
+    email: string,
+    password: string,
+}
 
-export const FormWithCustomHook = (props: Props) => {
-    const initialState : FormLoginType = {
+
+export const FormWithCustomHook = () => {
+    const initialState : FormData = {
         username: '',
         email: '',
         password: '',
     }
-    const { formState , username, password, email, onInputChange, onResetForm } = useForm( initialState )
+    const { username, password, email, onInputChange, onResetForm } = useForm<FormData>( initialState )
 
 
     // const { username, email, password } = formState

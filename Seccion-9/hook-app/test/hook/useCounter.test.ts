@@ -1,5 +1,5 @@
-import { describe, expect, test, jest } from '@jest/globals';
-import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
+import { describe, expect, test } from '@jest/globals';
+import { act, renderHook } from '@testing-library/react';
 import { useCounter } from '../../src/hook/useCounter';
 
 

@@ -1,9 +1,7 @@
-import { describe, expect, test, jest } from '@jest/globals';
-import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
+import { describe, expect, test } from '@jest/globals';
+import { act, renderHook } from '@testing-library/react';
 import { useForm } from '../../src/hook/useForm';
 import { FormLoginType } from '../../src/interfaces';
-import { ChangeEvent } from 'react';
-import * as React from 'react';
 
 
 
@@ -44,20 +42,30 @@ describe("Pruebas en el hook useForm",()=>{
         
         //El act es una funcion que recibe una funcion de callback 
         act(()=>{
-            // onInputChange({target:{ name:'name' , value: newInputValueName }:EventTarget} );
-            onResetForm()
+            onInputChange({target:{ name:'username' , value: newInputValueName }});
             
         })
 
-        expect(result.current).toEqual({
-            
-            username: initialValue.username ,
-            email: initialValue.email,
-            password: initialValue.password,
-            formState: initialValue,
-            onInputChange: expect.any( Function ),
-            onResetForm: expect.any( Function )
-            
+        expect( result.current.username ).toBe( newInputValueName );
+        expect( result.current.formState.username).toBe( newInputValueName );
+
+    })
+    test('Debe realizar el reset del formulario', ()=>{
+        const newInputValueName  = 'Facundo';
+        const { result } = renderHook( ()=> useForm( initialValue ))
+        const { onInputChange, onResetForm} = result.current;
+        
+        //El act es una funcion que recibe una funcion de callback 
+        act(()=>{
+            onInputChange({target:{ name:'username' , value: newInputValueName }});
+            onResetForm()
+        })
+
+        //Evaluamos que las propiedades del objeto formulario respete su tipo y que se resete el form
+         expect(result.current.formState).toEqual({
+            username: expect.any(String),
+            password: expect.any(String),
+            email: expect.any(String),
         })
     })
 })

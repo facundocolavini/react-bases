@@ -1,11 +1,19 @@
 import { Quote } from "../../interfaces/brakingBadI"
-import { useRef, useLayoutEffect, useState } from 'react';
+import React, { useRef, useLayoutEffect, useState } from 'react';
 
-export const Quotes = ({author, quote, series}: Quote): JSX.Element => {
-  const pRef: React.MutableRefObject<HTMLParagraphElement> = useRef()
+interface Props {
+    quote_id: number;
+    quote:    string;
+    author:   string;
+    series:   string;
+}
+
+export const Quotes = ({ author, quote, quote_id, series }:Props): JSX.Element => {
+  useRef<HTMLInputElement>(null);
+  const pRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [boxSize , setBoxSize] = useState({width:0, height:0})
  
-  useLayoutEffect(() => {
+  useLayoutEffect(() => { 
       const { height, width } = pRef.current.getBoundingClientRect()
       setBoxSize({height, width}) 
   }, [quote])
@@ -13,12 +21,12 @@ export const Quotes = ({author, quote, series}: Quote): JSX.Element => {
   return (
     <>
       <blockquote 
+        key={quote_id}
         className='blockquote text-end'
         style={{display: "flex"}}
-        >
-
+      >
           <p className='mb-1' ref={ pRef }>{quote}</p>
-          <p className='mb-1'>{series}</p>
+          <p className='mb-1'  >{series}</p>
           <footer className="blockquote-footer">{author}</footer>
       </blockquote>
       <code>{JSON.stringify(boxSize)}</code>

@@ -68,9 +68,11 @@ Instalar jest : [JEST](https://jestjs.io/)
 ```bash
   //Javascript solo este comando
    npm install --save-dev jest
+   yarn add --dev jest
 
   //Con TypeScript deberemos instalar este preprocesador con este comando
   npm install --save-dev jest typescript ts-jest @types/jest
+  yarn add --dev jest typescript ts-jest @types/jest
 ```
 
 Agregamos el siguiente script a nuestro **package.json**
@@ -257,11 +259,10 @@ module.exports = {
   //Estos presets tienen que estar instalados en el package.json
   presets: [
     ['@babel/preset-env', { targets: { esmodules: 'true' } }], //ES6
-    ['@babel/preset-react',{runtime: 'automatic'},],
+    ['@babel/preset-react', { runtime: 'automatic' }],
     '@babel/preset-typescript',
   ],
 };
-
 ```
 
 Reiniciar todas las consolas.
@@ -410,48 +411,48 @@ Instalacion de Testing Library
 
 ## Algunos Metodos
 
-  Testing library tiene metodos para analizar el dom estas son:
+Testing library tiene metodos para analizar el dom estas son:
 
 ### JEST
-  
-  **getByText**: Busque algo que haga match con un texto.Solo devuelve un elemento.
 
-  **toContain:** Es parecido al === es una igualdad estricta, no me importa si hay letras antes o despues tiene que contener esa palabra.
-  
-  **toBe:** Se asegura que sean identicos , mismo espacios, mismo tipo
-  
-  **getByTestId:** nos ayuda a tomar elementos por su atributo.
-  
-  **getAllByText:** Si estamos esperando mas de un elemento
+**getByText**: Busque algo que haga match con un texto.Solo devuelve un elemento.
 
-  **toBeTruthy:** Existe o True. 
-  
-  **toBeFalsy:** Es Falso  o no existe.
-  
-  **not:** Niega.
+**toContain:** Es parecido al === es una igualdad estricta, no me importa si hay letras antes o despues tiene que contener esa palabra.
 
-  **getByRole:** Busca por rol, (inputs,labels,alerts, articles, dialogs ,etc) y son todas etiquetas html.
+**toBe:** Se asegura que sean identicos , mismo espacios, mismo tipo
+
+**getByTestId:** nos ayuda a tomar elementos por su atributo.
+
+**getAllByText:** Si estamos esperando mas de un elemento
+
+**toBeTruthy:** Existe o True.
+
+**toBeFalsy:** Es Falso o no existe.
+
+**not:** Niega.
+
+**getByRole:** Busca por rol, (inputs,labels,alerts, articles, dialogs ,etc) y son todas etiquetas html.
+
 ### Testing Library
-  
-  **render**: Renderiza el componente en memoria.
-  
-  **screen:** Es el objeto que renderizamos y nos ayuda a hacer muchas limpiezas automatica despues de cada prueba.Tambien nos da la version actualizada si surgen cambios en el DOM.Es la representacion de nuestro componente que esta renderizando.
-  
-  **debug:** Nos ayuda ver el estado del DOM para ver si cambio correctamente a lo que esperabamos.
-  
-  **fireEvents:** Dispara eventos, podemos manejar varios tipos de eventos bind, apply, click. 
+
+**render**: Renderiza el componente en memoria.
+
+**screen:** Es el objeto que renderizamos y nos ayuda a hacer muchas limpiezas automatica despues de cada prueba.Tambien nos da la version actualizada si surgen cambios en el DOM.Es la representacion de nuestro componente que esta renderizando.
+
+**debug:** Nos ayuda ver el estado del DOM para ver si cambio correctamente a lo que esperabamos.
+
+**fireEvents:** Dispara eventos, podemos manejar varios tipos de eventos bind, apply, click.
 
 No vamos a probar funciones que vengan de la libreria de react ej: useState ya que estan probadas y no corresponderia.
 
-  **Podemos obtener un elemento del DOM con aria-label o por id:**
+**Podemos obtener un elemento del DOM con aria-label o por id:**
 Para ambas es muy similar a obtener un elemento por su id pero podemos utilizar el getByRole para especificarlo.
 
 ```html
-   <!-- Por su aria label -->
-   <button  aria-label="btn-reset" onClick={handleReset}>Reset</button>
-
+<!-- Por su aria label -->
+<button aria-label="btn-reset" onClick="{handleReset}">Reset</button>
 ```
 
 ```js
-  screen.getByRole('button', {name: 'btn-reset'})
+screen.getByRole('button', { name: 'btn-reset' });
 ```
