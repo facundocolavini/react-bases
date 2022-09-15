@@ -1,7 +1,7 @@
-import { TodoStateI } from "../interfaces"
+import { TodoState } from "../interfaces"
 
 
-export const todoReducer = (initialState: TodoStateI[] = [], action: any ) =>{
+export const todoReducer = (initialState: TodoState[] = [], action: any ) =>{
     switch (action.type) {//accion del tipo ...
         case 'add-todo':// Disparo la accion de add todo 
             return [...initialState, action.payload] // Y esta accion tiene que tener el payload de esa accion
@@ -9,7 +9,7 @@ export const todoReducer = (initialState: TodoStateI[] = [], action: any ) =>{
             return initialState.filter(todo => todo.id !== action.payload)
         case 'toggle-todo':// Disparo la accion de toggle todo 
             return initialState
-                .map((todo: TodoStateI) => {
+                .map((todo: TodoState) => {
                         if(todo.id === action.payload ){
                             return{
                                 ...todo,

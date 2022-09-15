@@ -1,5 +1,5 @@
 
-import { ActionDeleteTodoType, ActionNewTodoType, TodoStateI } from "@/interfaces";
+import { ActionDeleteTodoType, ActionNewTodoType ,ActionToggleTodoType , TodoState } from "../interfaces";
 import { useEffect, useReducer } from "react";
 import { todoReducer } from "../08-useReducer/todoReducer";
 import { getTodoToLocal, setTodoToLocal } from "../08-useReducer/utilities/localStorage";
@@ -7,10 +7,10 @@ import { getTodoToLocal, setTodoToLocal } from "../08-useReducer/utilities/local
 
 export const useTodo = () => {
     //  Estado inicial del Reducer
-    const initialState: TodoStateI[] = [] 
+    const initialState: TodoState[] = [] 
     // Funcion para cargar en el reducer con todos que tengo en mi local storage
     const init = ()=>{
-        return getTodoToLocal('todos') || [] as TodoStateI[] // Si devuelve null me pone un array vacio []
+        return getTodoToLocal('todos') || [] as TodoState[] // Si devuelve null me pone un array vacio []
     }
 
     const [ todos, dispatchTodoAction ] = useReducer( todoReducer, initialState, init)
@@ -20,7 +20,7 @@ export const useTodo = () => {
         setTodoToLocal('todos', todos)
     },[todos])
 
-    const handleNewTodo = (todo: TodoStateI):void =>{
+    const handleNewTodo = (todo: TodoState):void =>{
         const action: ActionNewTodoType = {
             type: 'add-todo',
             payload: todo,
@@ -42,7 +42,7 @@ export const useTodo = () => {
 
     // Cambiar una tarea a realizada o no realizada
     const handleToggleTodo = ( id: number):void =>{
-        const action: ActionDeleteTodoType = {
+        const action: ActionToggleTodoType = {
             type: 'toggle-todo',
             payload: id,
         }
@@ -50,7 +50,7 @@ export const useTodo = () => {
         dispatchTodoAction(action)
     }
     
-    const pendingTodosCount: number = todos.filter((todo: TodoStateI) => !todo.done).length 
+    const pendingTodosCount: number = todos.filter((todo: TodoState) => !todo.done).length 
     const todosCount: number = todos.length
 
 

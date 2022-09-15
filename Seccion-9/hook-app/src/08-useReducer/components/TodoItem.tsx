@@ -1,27 +1,29 @@
 import React from 'react'
-import { TodoStateI } from '../../interfaces'
+import { TodoState } from '../../interfaces'
 
-
-export interface TodoItem {
-  todo: TodoStateI,
+ interface TodoItem {
+  todo: TodoState,
   onDeleteTodo:  (id: number) => void; 
   onToggleTodo: (id: number) => void;
 }
 type Props = {
-  todo: TodoStateI,
+  todo: TodoState,
   onToggleTodo: (id: number) => void;
   onDeleteTodo:  (id: number) => void; 
 }
-const TodoItem: React.FC<TodoItem> = ( {todo, onDeleteTodo,onToggleTodo}: Props) => {
+
+export const TodoItem: React.FC<TodoItem> = ( {todo, onDeleteTodo,onToggleTodo}: Props): JSX.Element=> {
   return (
     <li className="list-group-item d-flex justify-content-between">
         <span 
+          aria-label="span-test"
           className={`align-self-center  ${todo.done ? 'text-decoration-line-through' : '' }`}
           onClick={ ()=> onToggleTodo(todo.id)}
           >
             { todo.description }
         </span>
         <button 
+          test-id="btn-delete"
           onClick={()=>onDeleteTodo(todo.id)}
           className="btn btn-danger"
         >
@@ -31,4 +33,3 @@ const TodoItem: React.FC<TodoItem> = ( {todo, onDeleteTodo,onToggleTodo}: Props)
   )
 }
 
-export default TodoItem

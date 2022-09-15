@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { Quote } from '../interfaces/brakingBadI';
 
-type PropsFetch = {
+interface PropsFetch  {
   data: Quote[] | null, 
-  isLoading: boolean , 
+  isLoading: boolean, 
   hasError: string | null,
 }
  
@@ -19,12 +19,14 @@ export const useFetch = ( url: string ) => {
         
         setState({
           ...state,
-          isLoading: true
+          data: null,
+          isLoading: true,
+          hasError: null
         })
         try{
           const resp : Response = await fetch( url )
-          const  data  =  await resp.json();
-  
+          const  data =  await resp.json();
+          console.log( typeof data)
           setState({
             ...state,
             data,
@@ -34,6 +36,8 @@ export const useFetch = ( url: string ) => {
         }catch(e){
           setState({
             ...state,
+            data: null,
+            isLoading: false,
             hasError: 'Error on fetch quotes'
           })
         }
@@ -50,7 +54,7 @@ export const useFetch = ( url: string ) => {
       ...state,
       // Para mejor lectura se hace asi
       data: state.data,
-      isLoading: state.isLoading,
-      hasError: state.hasError
+      isLoading: state?.isLoading,
+      hasError: state?.hasError
     }
 }

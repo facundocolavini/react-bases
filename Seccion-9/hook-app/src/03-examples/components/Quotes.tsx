@@ -1,15 +1,12 @@
-import { Quote } from "../../interfaces/brakingBadI"
+
 import React, { useRef, useLayoutEffect, useState } from 'react';
+import { Quote } from '../../interfaces/brakingBadI';
 
-interface Props {
-    quote_id: number;
-    quote:    string;
-    author:   string;
-    series:   string;
-}
 
-export const Quotes = ({ author, quote, quote_id, series }:Props): JSX.Element => {
+
+export const Quotes = ({ author, quote, quote_id, series }:Quote): JSX.Element => {
   useRef<HTMLInputElement>(null);
+  console.table([author, quote, quote_id, series])
   const pRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [boxSize , setBoxSize] = useState({width:0, height:0})
  
