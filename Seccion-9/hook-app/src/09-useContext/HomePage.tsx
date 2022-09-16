@@ -12,9 +12,9 @@ export const HomePage: React.FC<HomePage> = (props: Props) => {
 
   return (
     <>
-      <h1>HomePage : <small>{user?.name} {user?.lastname}</small></h1>
+      <h1>HomePage <small>{user?.name} {user?.lastname}</small></h1>
       <hr/>
-      <pre>
+      <pre aria-label='pre-test'>
         { JSON.stringify(user, null ,3)}
       </pre>
 

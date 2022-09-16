@@ -15,10 +15,13 @@ export const LoginPage: React.FC<LoginPage> = () => {
    <>
     <h1>LoginPage</h1>
     <hr/>
-    <pre>
+    <pre aria-label="pre-test-login">
       { JSON.stringify(user, null ,3)}
     </pre>
-    <button className="btn btn-primary" onClick={()=>setUser({
+    <button 
+      aria-label="button-test-login"
+      className="btn btn-primary"
+      onClick={()=>setUser({
         id:123,
         name:'Facundo',
         lastname:'Colavini'

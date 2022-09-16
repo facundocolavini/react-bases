@@ -1,6 +1,6 @@
 
 import { ActionDeleteTodoType, ActionNewTodoType ,ActionToggleTodoType , TodoState } from "../interfaces";
-import { useEffect, useReducer } from "react";
+import React, { Dispatch, useEffect, useReducer } from "react";
 import { todoReducer } from "../08-useReducer/todoReducer";
 import { getTodoToLocal, setTodoToLocal } from "../08-useReducer/utilities/localStorage";
 
@@ -13,7 +13,7 @@ export const useTodo = () => {
         return getTodoToLocal('todos') || [] as TodoState[] // Si devuelve null me pone un array vacio []
     }
 
-    const [ todos, dispatchTodoAction ] = useReducer( todoReducer, initialState, init)
+    const [ todos  , dispatchTodoAction ] = useReducer( todoReducer, initialState, init)
 
     // Efecto para guardar en localStorage
     useEffect(()=>{
@@ -55,7 +55,7 @@ export const useTodo = () => {
 
 
     return {
-        todos,
+        todos: todos as TodoState[],
         todosCount,
         pendingTodosCount,
         handleTodoDelete,

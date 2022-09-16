@@ -3,7 +3,7 @@ import { AboutPage } from './AboutPage';
 import { Navbar } from './components/Navbar';
 import { UserProvider } from './context/UserProvider';
 import { HomePage } from './HomePage';
-import { LoginPage } from './Login';
+import { LoginPage } from './LoginPage';
 
 interface MainApp {
 

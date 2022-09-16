@@ -1,7 +1,7 @@
-import { AddCategory , GifGrid } from'../../src/components'
-import * as React from 'react'
-import { describe, expect, test, jest } from '@jest/globals';
-import { fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
+import { describe, expect, jest, test } from '@jest/globals';
+import { fireEvent, render, screen } from '@testing-library/react';
+import * as React from 'react';
+import { AddCategory } from '../../src/components';
 import GiftExpertApp from '../../src/GifExpertApp';
 
 

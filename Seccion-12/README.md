@@ -93,4 +93,9 @@ act(() => {
 });
 ```
 
-## Pruebos sobre useForm
+## Probando HomePage donde se usa el Context
+
+Cuando empezamos a hacer pruebas en mi HomePage y queremos renderizar el componente nos arroja un error de que no encuentra el userContext.
+Para poder utilizar el contexto que nosotros creamos hay que agregarlo en el metodo del render y decirle que vamos a usar ese context.
+
+render
