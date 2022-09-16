@@ -1,8 +1,8 @@
 
-import { ActionDeleteTodoType, ActionNewTodoType ,ActionToggleTodoType , TodoState } from "../interfaces";
+import { ActionDeleteTodoType, ActionNewTodoType ,ActionToggleTodoType , TodoState } from "./interfaces";
 import React, { Dispatch, useEffect, useReducer } from "react";
-import { todoReducer } from "../08-useReducer/todoReducer";
-import { getTodoToLocal, setTodoToLocal } from "../08-useReducer/utilities/localStorage";
+import { todoReducer } from "./todoReducer";
+import { getTodoToLocal, setTodoToLocal } from "./localStorage";
 
 
 export const useTodo = () => {
