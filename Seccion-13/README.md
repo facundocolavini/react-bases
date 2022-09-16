@@ -1,4 +1,4 @@
-# Pruebas unitarias y de integracion - Hooks
+# Custom Hooks
 
 Este es un repositorio para poner todos nuestros custom Hooks
 
