@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FormLoginType } from '../interfaces';
 
 export const useForm = <T extends Object>(initialValues: T) => {
     const [formState, setFormState] = useState<T>( initialValues );
