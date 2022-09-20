@@ -134,3 +134,92 @@ const { id } = useParams();
 ### Animaciones
 
 [Animate css](https://animate.style/) nos va a ayudar a tener animaciones en nuestra app.
+
+
+
+### Query params de la URL
+
+Cuando vemos una URL que esta escrita asi: 
+**/search/**  CON SLASH
+Se le dice que son segmentos de mi url  con los que trabajo pero si tengo esto asi.
+
+**/search?** 
+
+Estamos diciendo que vamos a tener parametros adicionales o informacion adicional que le puedo mandar al componente.Se utiliza para busquedas o hacer algun filtro.
+
+
+El query parametter se obtiene de  la localizacion  donde nos encontramos  en el HTML.
+
+```js
+const location = useLocation() 
+```
+
+En el location vamos a tener las propiedades como :
+
+```js
+{
+  pathname: '/search',
+  search: '?q=spiderman',
+  hash: '',
+  state: null,
+  key: 'xvgqcgen'
+}
+
+```
+
+
+### Administrar nuestros query params
+
+A la hora de querer extraer el query parametter de mi location suele ser complicado ya que si tenemos mas de un parametro resulta complicado  en mi querystring.
+
+Si hay mas de 1 argumento en mi query parameter:
+```
+/search?q=superman&asc=true 
+```
+
+### Procesando mi query parametter con query-string:
+
+Para solucionar esto de los query parametters podemos utilizar query-string.
+Es un paquete liviano, nos ayuda a poder extraer el query string de mi url.
+**NOTA:** Siempre vamos a recibir strings por mas que le mandemos un numero a mi query en mi url.query-string transforma todo a string.
+```
+yarn add query-string
+```
+Resultado:
+
+```js
+/search?q=spiderman&asc=true
+{
+    asc: 'true',
+    q: 'spiderman'
+}
+```
+
+### Renderizado condicional
+
+Podemos hacer varias formas las condiciones a  la hora de mostrar algo en mi componentes.
+
+**Ternarios:**
+
+```jsx
+ ( q === ' ')
+  ? < div className = " alert alert - primary " > Search a hero </div>
+  : ( heroes.length === 0 ) && < div className = " alert alert-danger " No hero with <b> { q } </b> </div>
+
+```
+
+**Con condicion en el atributo styles que cambia la clase:**
+
+```js
+<div 
+  className= "alert alert-primary " 
+  style={{ display: q !== '' ? 'none':"" }}
+>
+  Search a hero
+</div>
+
+<div className= "alert alert-danger" style = {{ display: ' none '}}>
+  No hero with <b> { q } </b>
+</div>
+
+```

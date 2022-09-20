@@ -22,8 +22,9 @@ export const HeroCard = ({
   const  heroImageUrl = `/assets/heroes/${id}.jpg`;
 
   return (
-    <div className="col animate__animated animate__fadeIn">
+    <div className="col animate__animated animate__fadeIn p-1 mt-2">
       <div className="card" key={id}>
+        <div className="row">
           <div className="col-4">
              <img src={heroImageUrl} alt={ superhero } className="card-img" />
           </div>
@@ -43,6 +44,7 @@ export const HeroCard = ({
               </Link>
             </div>
           </div>
+        </div>
       </div>
     </div>
   )
