@@ -1,23 +1,32 @@
-import { State } from '../interfaces/auth-interfaces';
-import { Actions } from '../types/types';
+import { AuthState } from '../interfaces';
+import { LoginAction } from '../types/actions';
 
-const initialState = {
-    logged: false,
-    name: 'Facundo'     
-}
+// No llamar al localstorage en el reducer ni console.log
 
-export const loginReducer = ( state:  State = initialState, action = {}) =>{
-
-    switch ( action) {
-        case 'login':
-
-            return state;
-        case 'logOut':
-
-            return state;
-
+export const authReducer = ( authState: AuthState, action: LoginAction) =>{
+    
+    switch ( action.type) {
+        case 'login': 
+            return{
+                ...authState,
+                isLoggedIn:true,
+                user: action.payload
+            }
+        
+        case 'logout':
+            return {
+                ...authState,
+                isLoggedIn:false,
+            }
+        
+        case 'field':
+            return {
+                ...authState,
+                [action.fieldName]: action.payload
+            }
+        
         default:
-            return state;
+            return authState;
     }
 }
 

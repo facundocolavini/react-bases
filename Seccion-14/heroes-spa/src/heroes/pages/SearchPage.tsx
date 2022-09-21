@@ -11,9 +11,6 @@ export const SearchPage = (props: Props) => {
 
   const { heroesFind ,errorSearch ,showSearch,querySearch ,searchText ,onInputChange ,onSubmitForm } = useSearch()
 
-  console.log( heroesFind ,errorSearch ,showSearch,querySearch ,searchText,'USEsEARCH STATE' );
-  
-
   
   return (
     <>
