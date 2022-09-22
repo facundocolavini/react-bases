@@ -4,8 +4,8 @@ import { AuthContext } from '../context/authStore';
 
 type Props = {}
 export const LoginPage = (props: Props) => {
-  const { authState, login } = useContext(AuthContext)
-
+  const { login } = useContext(AuthContext)
+  const lastPath : string = localStorage.getItem('lastPath') || '/';
   
   const navigate =  useNavigate();
 
@@ -16,7 +16,7 @@ export const LoginPage = (props: Props) => {
       lastname: 'Colavini'
 
     })
-    navigate('/',{
+    navigate( lastPath ,{
       replace:true
     });
   }

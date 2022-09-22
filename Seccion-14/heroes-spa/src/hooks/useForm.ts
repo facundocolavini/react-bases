@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 
 
@@ -9,7 +9,7 @@ export const useForm = <T extends Object>(initialValues: T) => {
         value: string
     }
     //Inputs Handlers
-    const onInputChange = ( {target}:React.ChangeEvent<HTMLInputElement> ):void=>{
+    const onInputChange = useCallback(({ target }:React.ChangeEvent<HTMLInputElement> ):void=>{
         const { name, value } = target  as  inputF
         setFormState(
             (prev) => ({
@@ -17,7 +17,7 @@ export const useForm = <T extends Object>(initialValues: T) => {
                 [name]: value // Valor del input o de campos
              })
         )
-    }
+    },[])
 
     const onResetForm = (): void => {
         setFormState( initialValues )

@@ -4,7 +4,7 @@
 import { User } from "../interfaces";
 
 export type LoginAction = 
-    | { type: 'login'; payload: User} 
-    | { type: 'logout'}
+    | { type: 'login'; payload: User } 
+    | { type: 'logout'; payload: User }
     | { type: 'field'; fieldName: string; payload: string }
 

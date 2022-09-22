@@ -10,7 +10,7 @@ export const AuthRoutes = (props: Props) => {
     <>
       <div className="container">
         <Routes>
-            <Route path='/' element={<LoginPage />}></Route>
+            <Route path='*' element={<><h1>Not Found</h1></>}></Route>
             <Route path='singup' element={<SingupPage />}></Route>
             <Route path='login' element={<LoginPage />}></Route>
         </Routes>       

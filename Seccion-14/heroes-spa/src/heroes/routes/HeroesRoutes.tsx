@@ -10,6 +10,7 @@ export const HeroesRoutes = (props: Props) => {
       <Navbar />
       <div className="container">
         <Routes>
+          <Route path='*' element={<><h1>Not Found</h1></>}></Route>
           <Route path='marvel' element={<MarvelPage />}></Route>
           <Route path='dc' element={<DcPage />}></Route>
           <Route path='/' element={<Navigate to="/marvel" />}></Route>

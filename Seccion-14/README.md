@@ -223,3 +223,60 @@ Podemos hacer varias formas las condiciones a  la hora de mostrar algo en mi com
 </div>
 
 ```
+
+## Definir mis como privadas o publicas 
+
+**Rutas privadas:**Utilizamos rutas privadas para manejar el control de accesos a ciertas vistas que un usuario no puede acceder.
+**Rutas publicas:** Utilizamos las rutas publicas para que el usuario de cualquier rol pueda tener acceso sin importar la circunstancias. 
+
+Para especificarla nuestras rutas si son publicas o privadas hay que tratarlas como un high order component. Lo que significa que puede recibir componentes hijos.
+
+**Outlet:** Outlet hace la representacion de las rutas que se encuentran dentro de el.
+
+
+**Rutas hijas:**
+```js 
+// Ejemplo de uso de rutas hijas
+
+<Routes>
+  <Route path = "invoices " element = { <Invoices /> } >
+    <Route path = ":invoiceId " element = { < Invoice /> } />
+    <Route path = "sent " element = { < SentInvoices / > } />
+  </Route >
+<Routes/>
+
+// Llamada a mi Outlet
+function Invoices ( ) {
+  return (
+   < div >
+      < h1 > Invoices < / h1 >
+      < Outlet / >
+   </div>
+  ) ;
+}
+```
+Hay 2 formas que se pueden definir las rutas
+
+**Forma explicita:**
+```js
+< Route path = "login/*" element = {
+    < PublicRoute >
+       /* < LoginPage / >   */
+       < Routes >
+         < Route path = "/* " element = { LoginPage / > } / > // Explicita
+      < / Routes
+    < / PublicRoute >
+  }
+/>
+```
+**Por Modulos:**
+
+```js
+ <Route path='auth/*' element={
+         <PublicRoute>
+            <AuthRoutes />
+          </PublicRoute>
+        }/>
+
+```
+#### Forma explicita 

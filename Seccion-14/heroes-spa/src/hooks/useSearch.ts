@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FormSearch, getHeroesByName, queryParams } from "../heroes";
 import queryString from 'query-string';
@@ -11,9 +11,10 @@ export const useSearch = () => {
     const location = useLocation(); // Obtener la informacion de la ubicacion donde nos encontramos
     const {q = '' as string} = queryString.parse( location.search )
 
-    const { searchText , onInputChange } = useForm<FormSearch>({ searchText: q as string});
-  
-    const heroesFind = getHeroesByName(q)
+    const { searchText , onInputChange } = useForm({ searchText: q  as string});
+
+    const heroesFind = useMemo(()=> getHeroesByName( q )
+    ,[q])// Solo va a redibujar si las dependencias cambian
     
     const showSearch: boolean =  heroesFind.length > 0;
     const errorSearch: boolean =  !!q && q?.length> 0 && heroesFind.length === 0;
@@ -22,7 +23,7 @@ export const useSearch = () => {
         event.preventDefault();
         // if(searchText.trim().length <= 1) return;
     
-        navigate(`?q=${ searchText.toLocaleLowerCase().trim()}`)
+        navigate(`?q=${ searchText?.toLocaleLowerCase().trim()}`)
       }
 
     return {
@@ -33,6 +34,5 @@ export const useSearch = () => {
         searchText,
         onSubmitForm,
         onInputChange,
- 
     }
 }
