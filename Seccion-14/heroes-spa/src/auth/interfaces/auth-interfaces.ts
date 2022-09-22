@@ -2,7 +2,7 @@
 export interface AuthState {   
     isLoggedIn: boolean;
     user: User | null ;
-    variant: 'login' | 'forgetPassword' | 'logOut'  // Manejar el tipo de action 
+    variant?: 'login' | 'forgetPassword' | 'logOut'  // Manejar el tipo de action 
 }
 
 

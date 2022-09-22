@@ -43,7 +43,7 @@ const init = () => {
 
 export const AuthProvider = ({ children }: AuthProps) => {
     // Conectamos y utilizamos mi useReducer dentro de mi Context AuthProvider 
-    const [ authState, dispatch] = useReducer( authReducer,{} , init )
+    const [ authState, dispatch] = useReducer( authReducer, {} , init )
     
  
     // Realizamos una funcion login para poder mandarsela a cualquier componente si necesita logearse y extraer authState despachando la action al reducer
