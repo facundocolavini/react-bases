@@ -1,4 +1,5 @@
-import { describe, test, expect } from '@jest/globals';
+import { test, describe, expect } from '@jest/globals';
+
 import { AuthState } from '../../../src/auth/interfaces';
 import { LoginAction } from '../../../src/auth/types/actions';
 import { User } from '../../../src/auth/interfaces/auth-interfaces';

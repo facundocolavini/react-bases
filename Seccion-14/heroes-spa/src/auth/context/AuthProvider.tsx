@@ -30,11 +30,13 @@ interface AuthProps {
 
 // Inicializar nuestro estado para mantener la persistencia del user
 // El estado inicial en el useReduce es opcional si hacemos un init
-const init = () => {
-   
-    //Lo obtenemos y vemos si  existe 
-    const user: User = getUserFromLocal('user') 
-
+const init = (): AuthState => {
+    let user: User;
+    if(!localStorage.getItem("user")){
+        setUserToLocal("user",userInit) 
+        user = getUserFromLocal("user")
+    }
+    user = getUserFromLocal("user")
     return {
         isLoggedIn: !!user?.id,
         user: user,
@@ -43,7 +45,7 @@ const init = () => {
 
 export const AuthProvider = ({ children }: AuthProps) => {
     // Conectamos y utilizamos mi useReducer dentro de mi Context AuthProvider 
-    const [ authState, dispatch] = useReducer( authReducer, {} , init )
+    const [ authState, dispatch] = useReducer( authReducer, {} as any , init )
     
  
     // Realizamos una funcion login para poder mandarsela a cualquier componente si necesita logearse y extraer authState despachando la action al reducer
@@ -56,13 +58,14 @@ export const AuthProvider = ({ children }: AuthProps) => {
             name:name,
             lastname:lastname
         }
-
+        setUserToLocal("user", user)
+        
         const action: LoginAction = {
             type: 'login',
             payload: user
         }
         // Agregamsos el user al local
-        setUserToLocal("user", user)
+
         dispatch( action )
     }
 

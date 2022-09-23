@@ -5,7 +5,7 @@ export const setUserToLocal = (key: string, value: User) =>{
 }
 
 export const getUserFromLocal = ( key: string ) =>{
-    return JSON.parse(localStorage.getItem(key) || '') 
+    return JSON.parse(localStorage.getItem(key) || '');
 } 
 
 export const clearUserFromLocal = ( key : string) => {
