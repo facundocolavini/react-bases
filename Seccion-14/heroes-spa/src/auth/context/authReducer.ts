@@ -1,5 +1,5 @@
 import { AuthState } from '../interfaces';
-import { LoginAction } from '../types/actions';
+import { LoginAction } from '../types';
 
 /* 
 IMPORTANTE: Los use reducer no llaman a funcionalidades externas :
@@ -10,7 +10,11 @@ Ejemplos:
 
   Todo lo resuelve con el state y la action que le llega.
 */
-
+enum typeAuth {
+    LOGIN= 'login',
+    LOGOUT= 'logout',
+    DEFAULT= 'default'
+}
 export const authReducer = ( authState: AuthState, action: LoginAction) =>{
     
     switch ( action.type) {
@@ -28,11 +32,11 @@ export const authReducer = ( authState: AuthState, action: LoginAction) =>{
                 user: action.payload
             }
         
-        case 'field':
-            return {
-                ...authState,
-                [action.fieldName]: action.payload
-            }
+        // case 'field':
+        //     return {
+        //         ...authState,
+        //         [action.fieldName]: action.payload
+        //     }
         
         default:
             return authState;

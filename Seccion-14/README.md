@@ -135,23 +135,20 @@ const { id } = useParams();
 
 [Animate css](https://animate.style/) nos va a ayudar a tener animaciones en nuestra app.
 
-
-
 ### Query params de la URL
 
-Cuando vemos una URL que esta escrita asi: 
-**/search/**  CON SLASH
-Se le dice que son segmentos de mi url  con los que trabajo pero si tengo esto asi.
+Cuando vemos una URL que esta escrita asi:
+**/search/** CON SLASH
+Se le dice que son segmentos de mi url con los que trabajo pero si tengo esto asi.
 
-**/search?** 
+**/search?**
 
 Estamos diciendo que vamos a tener parametros adicionales o informacion adicional que le puedo mandar al componente.Se utiliza para busquedas o hacer algun filtro.
 
-
-El query parametter se obtiene de  la localizacion  donde nos encontramos  en el HTML.
+El query parametter se obtiene de la localizacion donde nos encontramos en el HTML.
 
 ```js
-const location = useLocation() 
+const location = useLocation();
 ```
 
 En el location vamos a tener las propiedades como :
@@ -167,14 +164,14 @@ En el location vamos a tener las propiedades como :
 
 ```
 
-
 ### Administrar nuestros query params
 
-A la hora de querer extraer el query parametter de mi location suele ser complicado ya que si tenemos mas de un parametro resulta complicado  en mi querystring.
+A la hora de querer extraer el query parametter de mi location suele ser complicado ya que si tenemos mas de un parametro resulta complicado en mi querystring.
 
 Si hay mas de 1 argumento en mi query parameter:
+
 ```
-/search?q=superman&asc=true 
+/search?q=superman&asc=true
 ```
 
 ### Procesando mi query parametter con query-string:
@@ -182,9 +179,11 @@ Si hay mas de 1 argumento en mi query parameter:
 Para solucionar esto de los query parametters podemos utilizar query-string.
 Es un paquete liviano, nos ayuda a poder extraer el query string de mi url.
 **NOTA:** Siempre vamos a recibir strings por mas que le mandemos un numero a mi query en mi url.query-string transforma todo a string.
+
 ```
 yarn add query-string
 ```
+
 Resultado:
 
 ```js
@@ -197,7 +196,7 @@ Resultado:
 
 ### Renderizado condicional
 
-Podemos hacer varias formas las condiciones a  la hora de mostrar algo en mi componentes.
+Podemos hacer varias formas las condiciones a la hora de mostrar algo en mi componentes.
 
 **Ternarios:**
 
@@ -211,8 +210,8 @@ Podemos hacer varias formas las condiciones a  la hora de mostrar algo en mi com
 **Con condicion en el atributo styles que cambia la clase:**
 
 ```js
-<div 
-  className= "alert alert-primary " 
+<div
+  className= "alert alert-primary "
   style={{ display: q !== '' ? 'none':"" }}
 >
   Search a hero
@@ -224,18 +223,19 @@ Podemos hacer varias formas las condiciones a  la hora de mostrar algo en mi com
 
 ```
 
-## Definir mis como privadas o publicas 
+## Definir mis como privadas o publicas
 
-**Rutas privadas:**Utilizamos rutas privadas para manejar el control de accesos a ciertas vistas que un usuario no puede acceder.
-**Rutas publicas:** Utilizamos las rutas publicas para que el usuario de cualquier rol pueda tener acceso sin importar la circunstancias. 
+**Rutas privadas:** Utilizamos rutas privadas para manejar el control de accesos a ciertas vistas que un usuario no puede acceder.
+
+**Rutas publicas:** Utilizamos las rutas publicas para que el usuario de cualquier rol pueda tener acceso sin importar la circunstancias.
 
 Para especificarla nuestras rutas si son publicas o privadas hay que tratarlas como un high order component. Lo que significa que puede recibir componentes hijos.
 
 **Outlet:** Outlet hace la representacion de las rutas que se encuentran dentro de el.
 
-
 **Rutas hijas:**
-```js 
+
+```js
 // Ejemplo de uso de rutas hijas
 
 <Routes>
@@ -255,9 +255,11 @@ function Invoices ( ) {
   ) ;
 }
 ```
+
 Hay 2 formas que se pueden definir las rutas
 
 **Forma explicita:**
+
 ```js
 < Route path = "login/*" element = {
     < PublicRoute >
@@ -269,14 +271,31 @@ Hay 2 formas que se pueden definir las rutas
   }
 />
 ```
+
 **Por Modulos:**
 
 ```js
- <Route path='auth/*' element={
-         <PublicRoute>
-            <AuthRoutes />
-          </PublicRoute>
-        }/>
-
+<Route
+  path="auth/*"
+  element={
+    <PublicRoute>
+      <AuthRoutes />
+    </PublicRoute>
+  }
+/>
 ```
-#### Forma explicita 
+
+### Testear Rutas publicas
+
+Cuando intentamos testear nuestras rutas publicas utilizamos un contexto para saber si el usuario esta logeado . Pero nos arrojara un error si no definimos el contexto en nuestro test.
+
+```js
+export const PublicRoute = ({ children }: Props) => {
+  const { authState } = useContext(AuthContext);
+  const { isLoggedIn } = authState;
+
+  return !isLoggedIn ? <> {children} </> : <Navigate to="/marvel" />;
+};
+```
+
+Para poder testear con un navigate en nuestra aplicacion que utiliza context debemos agregarlo dentro del contexto de un router.Si no, no funcionara.Y utilizar el memory router.

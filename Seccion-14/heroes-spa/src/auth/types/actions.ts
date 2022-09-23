@@ -3,8 +3,14 @@
 
 import { User } from "../interfaces";
 
+
 export type LoginAction = 
     | { type: 'login'; payload: User } 
     | { type: 'logout'; payload: User }
-    | { type: 'field'; fieldName: string; payload: string }
-
+    | { type: 'default'}
+  
+export const testAuthTypes = {
+   login: 'login',
+   logout: 'logout',
+   def: 'default',
+}

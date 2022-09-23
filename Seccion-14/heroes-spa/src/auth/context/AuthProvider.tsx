@@ -9,15 +9,15 @@ import { clearUserFromLocal } from '../helpers/userLocal';
 
 // Crea el INITIAL_STATE con el types AuthState  el store debe de respetar el mismo tipo al iniciar el context
 // No es persistente si sse refresca la pagina vuelve a cargar el inistial state 
-const INITIAL_STATE:AuthState = {
-    isLoggedIn: false,
-    user: {
-        id: '',
-        name: '',
-        lastname: ''
-    },    
-    variant: 'login' 
-}
+// const INITIAL_STATE:AuthState = {
+//     isLoggedIn: false,
+//     user: {
+//         id: '',
+//         name: '',
+//         lastname: ''
+//     },    
+//     variant: 'log' 
+// }
 const userInit:User = {
     id: '',
     name: '',
@@ -29,7 +29,7 @@ interface AuthProps {
 }
 
 // Inicializar nuestro estado para mantener la persistencia del user
-// El estado inicial en el useReduce es opcional si hacemos un init
+// El estado inicial en el useReduce es opcional si hacemos un init y lo que hacemos es mandarle un estado inicial al local storage si es que no existe el usuario.
 const init = (): AuthState => {
     let user: User;
     if(!localStorage.getItem("user")){
@@ -40,12 +40,14 @@ const init = (): AuthState => {
     return {
         isLoggedIn: !!user?.id,
         user: user,
+        
     }  as AuthState
 }
 
 export const AuthProvider = ({ children }: AuthProps) => {
     // Conectamos y utilizamos mi useReducer dentro de mi Context AuthProvider 
-    const [ authState, dispatch] = useReducer( authReducer, {} as any , init )
+    const [ authState, dispatch] = useReducer( authReducer, {} , init )
+    console.log(authState);
     
  
     // Realizamos una funcion login para poder mandarsela a cualquier componente si necesita logearse y extraer authState despachando la action al reducer
