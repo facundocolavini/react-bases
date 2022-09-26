@@ -3,7 +3,7 @@ type Props = {
     alertType: string,
     children: React.ReactNode
 }
-export const  AlertsTypes = React.memo(({ alertType , children}: Props) => {
+export const  AlertsTypes = ({ alertType , children}: Props) => {
   
     switch (alertType) {
         case 'danger':
@@ -26,4 +26,4 @@ export const  AlertsTypes = React.memo(({ alertType , children}: Props) => {
             )
         default : return (<></>)
     }
-})
+}

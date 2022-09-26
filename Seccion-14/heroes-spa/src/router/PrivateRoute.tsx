@@ -6,7 +6,7 @@ type Props = {
     children: JSX.Element | JSX.Element[]
 }
 
-export const PrivateRouter = ({ children }: Props) => {
+export const PrivateRoute = ({ children }: Props) => {
   const { authState } = useContext(AuthContext)
   const { isLoggedIn } = authState;
   const { pathname, search } = useLocation()

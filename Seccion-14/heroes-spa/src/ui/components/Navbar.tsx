@@ -52,10 +52,11 @@ export const Navbar = () => {
 
             <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
                 <ul className="navbar-nav ml-auto">
-                    <span className='nav-item nav-link text-primary'>
+                    <span data-testid="user-span" className='nav-item nav-link text-primary'>
                         {user?.name} { user?.lastname} 
                     </span>
                     <button 
+                        data-testid="btn-logout"
                         className="nav-item nav-link btn"
                         onClick={ onLogOut }
                     >

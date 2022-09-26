@@ -24,4 +24,4 @@ describe(' Pruebas en getGifs()', () => {
             url: expect.any(String), // Siempre y cuando sea un string no importa que utl sea
         })
     })
-})w
+});

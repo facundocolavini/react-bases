@@ -14,6 +14,8 @@ describe('Pruebas en mi <PublicRouter />', () => {
     }
     const contextValueState: AuthContextProps = {
         authState: authStateInit,
+        login: ()=>{},
+        logout: ()=>{},
     }     
 
     test('Debe de mostrar el {children} si no esta autenticado', () => {
@@ -36,6 +38,8 @@ describe('Pruebas en mi <PublicRouter />', () => {
         }
         const contextValueState: AuthContextProps = {
             authState: authUserLogged ,
+            login: ()=>{},
+            logout: ()=>{},
         }
         render(
             <AuthContext.Provider value={contextValueState} >
