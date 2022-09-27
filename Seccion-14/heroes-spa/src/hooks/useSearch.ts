@@ -11,10 +11,10 @@ export const useSearch = () => {
     const location = useLocation(); // Obtener la informacion de la ubicacion donde nos encontramos
     const {q = '' as string} = queryString.parse( location.search )
 
-    const { searchText , onInputChange } = useForm({ searchText: q  as string});
+    const { searchText , onInputChange } = useForm({ searchText: q  as string });
 
-    const heroesFind = useMemo(()=> getHeroesByName( q )
-    ,[q])// Solo va a redibujar si las dependencias cambian
+    const heroesFind = getHeroesByName( searchText )
+   // Solo va a redibujar si las dependencias cambian
     
     const showSearch: boolean =  heroesFind.length > 0;
     const errorSearch: boolean =  !!q && q?.length> 0 && heroesFind.length === 0;
@@ -23,7 +23,7 @@ export const useSearch = () => {
         event.preventDefault();
         // if(searchText.trim().length <= 1) return;
     
-        navigate(`?q=${ searchText?.toLocaleLowerCase().trim()}`)
+        navigate(`?q=${ searchText }`)
       }
 
     return {

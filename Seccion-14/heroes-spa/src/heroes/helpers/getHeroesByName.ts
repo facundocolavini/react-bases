@@ -3,10 +3,10 @@ import { Hero, queryParams } from '../models';
 
 
 
-export const getHeroesByName = (  q : any ): Hero[] => {
-    q = q?.toLowerCase().trim();
-    if ( q?.length === 0 ) return [] as Hero[]
+export const getHeroesByName = (  searchText : string ): Hero[] => {
+    searchText = searchText?.toLowerCase().trim();
+    if ( searchText?.length === 0 ) return [] as Hero[]
   
     
-    return heroes.filter((hero: Hero) => hero.superhero.toLowerCase().includes(q))   
+    return heroes.filter((hero: Hero) => hero.superhero.toLowerCase().includes(searchText))   
 } 
