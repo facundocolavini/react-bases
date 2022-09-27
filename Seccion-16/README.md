@@ -21,4 +21,3 @@ Vamos a realizar mocks con nuestro local storage ya que a veces nuestro aplicaci
 ```bash
 npm install --save-dev @babel/preset-typescript @babel/preset-react @babel/preset-env @types/jest @testing-library/react jest typescript ts-jest @types/jest jest-environment-jsdom  whatwg-fetch
 ```
-## Objectivo de esta seccion
