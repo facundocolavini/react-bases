@@ -1,30 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface Pokemon {
-    name: string
+  name: string,
+  url?: string
 }
-export interface pokemonState {
+export interface PokemonState {
   pokemons: Array<Pokemon>,
-  page: number,
-  isLoading: boolean
+  nextPage: number,
+  isLoading: boolean,
+  error: string | null;
 }
 
-const initialState: pokemonState = {
+const initialState: PokemonState = {
   pokemons: [],
-  page:0,
-  isLoading:false
+  nextPage: 0,
+  isLoading: false,
+  error: null
 }
 // Reducers para hacer peticiones sincronas
 export const pokemonSlice = createSlice({
   name: 'pokemons',
   initialState,
   reducers: {
-   startLoadingPokemons: (state) => {
-    state.isLoading = true;
-   },
-   setPokemons:(state, action: PayloadAction)=>{
-    console.log(action);
-   }
+    startLoadingPokemons: (state) => {
+      state.isLoading = true;
+    },
+    setPokemons: (state, action: PayloadAction<PokemonState>) => {
+      state.isLoading = action.payload?.isLoading;
+      state.nextPage = action.payload?.nextPage;
+      state.error = action.payload?.error;
+      state.pokemons = action.payload?.pokemons;
+    }
   },
 })
 
