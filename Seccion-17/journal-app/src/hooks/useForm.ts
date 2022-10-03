@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from 'react';
 
-// Realizar snippet local de este hook
-export const useForm = <T extends Object>(initialValues: T) => {
+
+export const useForm = <T>(initialValues: T) => {
     const [formState, setFormState] = useState<typeof initialValues>(initialValues);
     interface inputF {
         name: string,
