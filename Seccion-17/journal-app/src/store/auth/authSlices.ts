@@ -9,9 +9,11 @@ export interface authState {
     email: string | null;
     displayName: string | null;
     photoURL: string | null;
+    errorCode?: null | string;
+    errorMessage?: null | string;
 }
 
-const initialState: authState = {
+const initialState: authState   = {
     status: 'not-authenticated',
     uid: null,
     email: null,
@@ -23,10 +25,23 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        login: (state, action) => {
+        login: (state, { payload }) => {
+            state.status = 'authenticated'
+            state.uid= payload.uid;
+            state.email= payload.email;
+            state.displayName= payload.displayName;
+            state.photoURL= payload.photoURL;
+            state.errorMessage= null;
+            state.errorCode= null;
         },
-        logout: (state, action) => {
-
+        logout: (state, { payload }) => {
+            state.status= 'not-authenticated';
+            state.uid= null;
+            state.email= null;
+            state.displayName= null;
+            state.photoURL= null
+            state.errorMessage= payload.errorMessage;
+            state.errorCode= payload.errorCode;
         },
         checkingCredentials: (state) => {
             state.status = 'checking-credentials'

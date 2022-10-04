@@ -1,6 +1,6 @@
 import { signInWithGoogle } from "../../firebase/providers"
 import { AppThunk } from "../store"
-import { checkingCredentials } from "./authSlices"
+import { checkingCredentials, login, logout } from "./authSlices"
 
 export const checkingUserAuthentication = (email: string, password: string): AppThunk => {
     return async (dispatch) => {
@@ -12,7 +12,14 @@ export const checkingUserAuthentication = (email: string, password: string): App
 // Tarea asincrona
 export const startGoogleSignIn = (): AppThunk => {
     return async (dispatch) => {
+        // Chequea las credenciales
         dispatch(checkingCredentials())
-        const result = signInWithGoogle();
+        const result = await signInWithGoogle();
+
+        // Cambiamos el status a authenticated cuando se autorize al usuario
+        console.log(result);
+        //Si sale mal y no se autentica sale un error
+        if(!result.ok) return dispatch(logout(result));
+        return dispatch(login(result))
     }
 }

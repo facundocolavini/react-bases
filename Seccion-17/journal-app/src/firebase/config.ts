@@ -15,9 +15,6 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_REACT_APP_FIREBASE_APPID
 };
 
-console.log(import.meta.env.REACT_APP_FIREBASE_API_KEY);
-
-
 // Initialize Firebase
 export const FirebaseApp = initializeApp(firebaseConfig);
 export const FirebaseAuth = getAuth(FirebaseApp);

@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { Google } from '@mui/icons-material';
 import { Link } from '@mui/material';
@@ -10,14 +10,24 @@ import Typography from '@mui/material/Typography';
 
 import { useForm } from '../../hooks';
 import { initialLogin } from '../../models';
-import { AppDispatch } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import { checkingUserAuthentication, startGoogleSignIn } from '../../store/auth/thunks';
 import { AuthLayout } from '../layout';
+import { authState } from '../../store/auth';
+
 
 export const LoginPage = (): JSX.Element => {
   const { email, password, onInputChange } = useForm(initialLogin);
   const dispatch: AppDispatch = useDispatch();
+  const { status }: authState = useSelector(
+		(state: RootState) => state.auth
+	);
 
+
+  //Si el status cambia renderiza el nuevo valor
+  const isAuthenticated = useMemo(()=>(status === 'checking-credentials'),[status])
+  console.log(status,'auth');
+  
   // Submit Login form
   const onSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
@@ -27,7 +37,7 @@ export const LoginPage = (): JSX.Element => {
 
   // Login with Google account
   const onGoogleSingIn = (event: React.FormEvent): void => {
-    console.log('onGoogle Sing In');
+    event.preventDefault()
     dispatch(startGoogleSignIn());
   };
 
@@ -61,12 +71,12 @@ export const LoginPage = (): JSX.Element => {
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12} sm={6}>
-              <Button type="submit" variant="contained" fullWidth>
+              <Button disabled={isAuthenticated} type="submit" variant="contained" fullWidth>
                 Login
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button variant="contained" fullWidth onClick={onGoogleSingIn}>
+              <Button disabled={isAuthenticated} variant="contained" fullWidth onClick={onGoogleSingIn}>
                 <Google>
                   <Typography sx={{ ml: 1 }}>Google</Typography>
                 </Google>
