@@ -1,31 +1,34 @@
+import { formCheckedValues } from './../models/validations/formsValidations';
 import { useEffect, useState } from 'react';
-import { regiterFormValidations } from '../models';
+import { FormValidations, RegisterUser } from '../models';
+
 interface initFormValues {
-    [key:string]: string
+    [key: string]: string
+}
+interface inputF {
+    name: string,
+    value: string
 }
 
+export const useForm = <T extends Object>(initialValues: T, formValidations = <FormValidations>{}) => {
+    // console.log(initialValues, 'INITIALVALUES');
 
-export const useForm = (initialValues: initFormValues, formValidations=<regiterFormValidations>{} ) => {
-    const [formState, setFormState] = useState<initFormValues>(initialValues );
-    const [formValidation, setValidations] = useState({} as regiterFormValidations);
+    const [formState, setFormState] = useState(initialValues);//{email: '', password: '', displayName: '',} RegisterUser = T
+    const [formValidation, setValidations] = useState({});
 
     useEffect(() => {
         createValidators()
     }, [formState])
-    
 
-    interface inputF {
-        name: string,
-        value: string
-    }
+
+
     //Inputs Handlers
     const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = target as inputF
+        const { name, value }: inputF = target
         setFormState(
             (prev) => ({
                 ...prev, // Campos anteriores
-                [name]: value // Valor del input o de campos
-
+                [name]: value // Valor del input o de campos {email: , password: , displayName:}
             })
         )
     }
@@ -36,23 +39,22 @@ export const useForm = (initialValues: initFormValues, formValidations=<regiterF
 
     // Toma el objeto formValidations y crea un nuevo estado donde se va a saber si los inputs son validos o no
     const createValidators = () => {
-        const formCheckedValues:regiterFormValidations = {}
+        const formCheckedValues: formCheckedValues = {} // {emailValid: null | 'Error Mensaje']}
         // Recorro mi objeto formValidations 
-        for (const formField of Object.keys( formValidations )){
-            // console.log( formValidations[formField] );
-            
-           const [fn,errorMessage ]  = formValidations[formField] 
-           // Creo una propiedad computada
-           console.log( fn(formState[formField]));
-           
-            formCheckedValues[`${formField}Valid`] = fn(formState[formField]) ? null : errorMessage;
+        for (const formField of Object.keys(formValidations)) { // email , password , displayName
+            const [fn, errorMessage] = formValidations[formField]; // {email:[f:boolean,'']}
+
+
+            // formCheckedValues[`${formField}Valid`] = fn(formState[formField]) ? null : errorMessage;
             setValidations(formCheckedValues)
         }
     }
     return {
         ...formState,
-        formState,
+        formState: formState,
+        ...formValidation,
         onInputChange,
-        onResetForm
+        onResetForm,
+
     }
 }

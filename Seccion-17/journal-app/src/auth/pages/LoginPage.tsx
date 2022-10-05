@@ -15,19 +15,15 @@ import { checkingUserAuthentication, startGoogleSignIn } from '../../store/auth/
 import { AuthLayout } from '../layout';
 import { authState } from '../../store/auth';
 
-
 export const LoginPage = (): JSX.Element => {
   const { email, password, onInputChange } = useForm(initialLogin);
   const dispatch: AppDispatch = useDispatch();
-  const { status }: authState = useSelector(
-		(state: RootState) => state.auth
-	);
-
+  const { status }: authState = useSelector((state: RootState) => state.auth);
 
   //Si el status cambia renderiza el nuevo valor
-  const isAuthenticated = useMemo(()=>(status === 'checking-credentials'),[status])
-  console.log(status,'auth');
-  
+  const isAuthenticated = useMemo(() => status === 'checking-credentials', [status]);
+  console.log(status, 'auth');
+
   // Submit Login form
   const onSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
@@ -37,7 +33,7 @@ export const LoginPage = (): JSX.Element => {
 
   // Login with Google account
   const onGoogleSingIn = (event: React.FormEvent): void => {
-    event.preventDefault()
+    event.preventDefault();
     dispatch(startGoogleSignIn());
   };
 
@@ -76,7 +72,12 @@ export const LoginPage = (): JSX.Element => {
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button disabled={isAuthenticated} variant="contained" fullWidth onClick={onGoogleSingIn}>
+              <Button
+                disabled={isAuthenticated}
+                variant="contained"
+                fullWidth
+                onClick={onGoogleSingIn}
+              >
                 <Google>
                   <Typography sx={{ ml: 1 }}>Google</Typography>
                 </Google>
