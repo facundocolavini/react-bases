@@ -9,14 +9,14 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import { useForm } from '../../hooks';
-import { initialLogin } from '../../models';
+import { initialLogin, LoginUser } from '../../models';
 import { AppDispatch, RootState } from '../../store';
 import { checkingUserAuthentication, startGoogleSignIn } from '../../store/auth/thunks';
 import { AuthLayout } from '../layout';
 import { authState } from '../../store/auth';
 
 export const LoginPage = (): JSX.Element => {
-  const { email, password, onInputChange } = useForm(initialLogin);
+  const { email, password, onInputChange } = useForm<LoginUser>(initialLogin);
   const dispatch: AppDispatch = useDispatch();
   const { status }: authState = useSelector((state: RootState) => state.auth);
 

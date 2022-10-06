@@ -22,10 +22,3 @@ export const initialRegister: RegisterUser = {
     displayName: '',
 }
 
-/* export const formData: RegisterUser<User> = {
-    email: 'facu_colavini@hotmail.com',
-    password: '123456',
-    displayName: 'Facundo Colavini'
-}
-
-*/
