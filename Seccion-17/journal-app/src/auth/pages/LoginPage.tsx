@@ -1,45 +1,47 @@
-import React, { useMemo } from 'react';
+import React, { useState ,useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { Google } from '@mui/icons-material';
-import { Link } from '@mui/material';
+import { Alert, Link } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import { useForm } from '../../hooks';
-import { initialLogin, LoginUser } from '../../models';
+import { formLoginValidator, initialLogin, LoginUser } from '../../models';
 import { AppDispatch, RootState } from '../../store';
-import { checkingUserAuthentication, startGoogleSignIn } from '../../store/auth/thunks';
+import { startGoogleSignIn, startLoginWithEmailAndPassword } from '../../store/auth/thunks';
 import { AuthLayout } from '../layout';
 import { authState } from '../../store/auth';
 
 export const LoginPage = (): JSX.Element => {
-  const { email, password, onInputChange } = useForm<LoginUser>(initialLogin);
+  const [formSubmitted, setFormSubmitted] = useState(false)
+  const { email, password,emailValid,passwordValid, isFormValid ,onInputChange } = useForm<LoginUser>(initialLogin, formLoginValidator);
   const dispatch: AppDispatch = useDispatch();
-  const { status }: authState = useSelector((state: RootState) => state.auth);
+  const { status, errorMessage }: authState = useSelector((state: RootState) => state.auth);
 
   //Si el status cambia renderiza el nuevo valor
   const isAuthenticated = useMemo(() => status === 'checking-credentials', [status]);
-  console.log(status, 'auth');
 
   // Submit Login form
   const onSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
-    console.log({ email, password });
-    dispatch(checkingUserAuthentication(email, password));
+    // dispatch(checkingUserAuthentication(email, password));
+    dispatch(startLoginWithEmailAndPassword({email,password}))
   };
 
   // Login with Google account
   const onGoogleSingIn = (event: React.FormEvent): void => {
     event.preventDefault();
+    setFormSubmitted(true)
+    if(!isFormValid)  setFormSubmitted(false)
     dispatch(startGoogleSignIn());
   };
 
   return (
     <AuthLayout title={'Login'}>
-      <form onSubmit={onSubmit}>
+      <form className="animate__animated animate__fadeIn animate__faster" onSubmit={onSubmit} noValidate>
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -51,6 +53,8 @@ export const LoginPage = (): JSX.Element => {
               name="email"
               value={email}
               onChange={onInputChange}
+              error={ !!emailValid && formSubmitted }
+              helperText={ emailValid }
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -63,9 +67,14 @@ export const LoginPage = (): JSX.Element => {
               name="password"
               value={password}
               onChange={onInputChange}
+              error={ !!passwordValid && formSubmitted }
+              helperText={ passwordValid && formSubmitted }
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
+           <Grid item xs={12} display={!!errorMessage ? '' : 'none'}>
+              <Alert severity='error'>{ errorMessage } </Alert>
+            </Grid>
             <Grid item xs={12} sm={6}>
               <Button disabled={isAuthenticated} type="submit" variant="contained" fullWidth>
                 Login

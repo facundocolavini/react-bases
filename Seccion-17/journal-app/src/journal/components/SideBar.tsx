@@ -2,21 +2,23 @@ import { TurnedInNot } from '@mui/icons-material';
 import {
 	Box,
 	Divider,
-	Drawer,
-	Toolbar,
-	Typography,
-	List,
+	Drawer, Grid, List,
 	ListItem,
 	ListItemButton,
-	ListItemIcon,
-	Grid,
-	ListItemText,
+	ListItemIcon, ListItemText, Toolbar,
+	Typography
 } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { FirebaseAuth } from '../../firebase/config';
+import { RootState } from '../../store';
+import { authState } from '../../store/auth';
 
 type Props = {
 	drawerWidth: number;
 };
 export const SideBar = ({ drawerWidth = 240 }: Props) => {
+	const { displayName }: authState = useSelector((state: RootState) => state.auth)
+	
 	return (
 		<Box
 			component="nav"
@@ -35,7 +37,7 @@ export const SideBar = ({ drawerWidth = 240 }: Props) => {
 			>
 				<Toolbar>
 					<Typography variant="h6" noWrap component="div">
-						Facundo Colavini
+						{ displayName }
 					</Typography>
 				</Toolbar>
 				<Divider>

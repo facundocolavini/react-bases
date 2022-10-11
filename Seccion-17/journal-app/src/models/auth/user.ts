@@ -1,6 +1,6 @@
 export interface User {
     email: string;
-    password: string;
+    password: string ;
     displayName: string;
 }
 
@@ -14,9 +14,9 @@ export const initialLogin: LoginUser = {
     password: ''
 }
 
-export type RegisterUser = User
+export type RegisterUser = User 
 
-export const initialRegister: RegisterUser = {
+export const initialRegister: User = {
     email: '',
     password: '',
     displayName: '',

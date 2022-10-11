@@ -17,3 +17,7 @@ export const formRegisterValidator = {
     password: [(value: string): boolean => value.length >= 6, 'El password debe de tener mas de 6 letras'],
 } 
 
+export const formLoginValidator = {
+    email: [(value: string): boolean => value.length >= 1, 'El correo es requerido'],
+    password: [(value: string): boolean => value.length >= 1, 'El password es requerido'],
+}

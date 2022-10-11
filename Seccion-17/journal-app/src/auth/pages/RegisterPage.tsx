@@ -1,19 +1,29 @@
-import { Link } from '@mui/material';
+import { Alert, Link } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import { useForm } from '../../hooks';
 import { formRegisterValidator, initialRegister, RegisterUser } from '../../models';
+import { AppDispatch, RootState } from '../../store';
+import { authState, reset } from '../../store/auth';
+import { startCreatingUserWithAndEmailPassword } from '../../store/auth/thunks';
 import { AuthLayout } from '../layout';
 
 
 export const RegisterPage = (): JSX.Element => {
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const navigate = useNavigate()
+  const dispatch: AppDispatch = useDispatch();
+  const { status, errorMessage }: authState = useSelector((state: RootState) => state.auth);
+
+  const isCheckingAuthentication = useMemo(()=> status === 'checking-credentials' , [status])
   const { 
+      formState,
       displayName,
       email,
       password,
@@ -24,17 +34,24 @@ export const RegisterPage = (): JSX.Element => {
       onInputChange 
   } = useForm<RegisterUser>( initialRegister, formRegisterValidator );
 
+  const goToLoginPage = () => {
+    dispatch(reset())
+    navigate('/auth/login',{
+      replace:true
+    });
+  }
   const onSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
     if(!isFormValid) return
     setFormSubmitted(true)
+    dispatch(startCreatingUserWithAndEmailPassword(formState));
+    
   };
 
-  console.log(isFormValid)
   return (
     <AuthLayout title={'Crear cuenta'}>
       <h1>Form Valid: {isFormValid ? 'Valido' : 'Invalido'}</h1>
-      <form onSubmit= {onSubmit}>
+      <form className="animate__animated animate__fadeIn animate__faster" onSubmit= {onSubmit} noValidate>
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -47,7 +64,7 @@ export const RegisterPage = (): JSX.Element => {
               value={displayName}
               onChange={onInputChange}
               error={ !!displayNameValid && formSubmitted}
-              helperText={formSubmitted && displayNameValid}
+              helperText={ displayNameValid }
           />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -60,7 +77,7 @@ export const RegisterPage = (): JSX.Element => {
               name="email"
               value={email}
               error={!!emailValid && formSubmitted }
-              helperText= {formSubmitted && emailValid}
+              helperText= { emailValid}
               onChange={onInputChange}
             />
           </Grid>
@@ -74,13 +91,16 @@ export const RegisterPage = (): JSX.Element => {
               name="password"
               value={password}
               error={!!passwordValid && formSubmitted}
-              helperText= {formSubmitted && passwordValid }
+              helperText= { passwordValid }
               onChange={onInputChange}
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
+            <Grid item xs={12} display={!!errorMessage ? '' : 'none'}>
+              <Alert severity='error'>{ errorMessage } </Alert>
+            </Grid>
             <Grid item xs={12}>
-              <Button type="submit" variant="contained" fullWidth>
+              <Button disabled={ isCheckingAuthentication } type="submit" variant="contained" fullWidth>
                 Crear cuenta
               </Button>
             </Grid>
@@ -89,7 +109,7 @@ export const RegisterPage = (): JSX.Element => {
             <Typography color="initial" sx={{ mr: 1 }}>
               Ya tenes cuenta?
             </Typography>
-            <Link component={RouterLink} color="inherit" to="/auth/login">
+            <Link component="button" onClick={goToLoginPage} color="inherit" >
               registrate
             </Link>
           </Grid>

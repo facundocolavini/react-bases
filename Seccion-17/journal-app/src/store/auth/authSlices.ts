@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 // status checking : verifica el estado de la autenticacion del usuario
 export type status = 'checking-credentials' | 'not-authenticated' | 'authenticated';
@@ -9,16 +9,19 @@ export interface authState {
     email: string | null;
     displayName: string | null;
     photoURL: string | null;
-    errorCode?: null | string;
-    errorMessage?: null | string;
+    errorCode?: string | null;
+    errorMessage?: string | null;
 }
 
 const initialState: authState   = {
-    status: 'not-authenticated',
+    status: 'checking-credentials',
     uid: null,
     email: null,
     displayName: null,
     photoURL: null,
+    errorCode: null,
+    errorMessage: null
+
 }
 
 export const authSlice = createSlice({
@@ -31,23 +34,32 @@ export const authSlice = createSlice({
             state.email= payload.email;
             state.displayName= payload.displayName;
             state.photoURL= payload.photoURL;
-            state.errorMessage= null;
-            state.errorCode= null;
+            state.errorMessage= payload?.errorMessage;
+            state.errorCode= payload?.errorCode;
         },
         logout: (state, { payload }) => {
             state.status= 'not-authenticated';
             state.uid= null;
             state.email= null;
             state.displayName= null;
-            state.photoURL= null
-            state.errorMessage= payload.errorMessage;
-            state.errorCode= payload.errorCode;
+            state.photoURL= null;
+            state.errorMessage= payload?.errorMessage;
+            state.errorCode= payload?.errorCode;
         },
         checkingCredentials: (state) => {
             state.status = 'checking-credentials'
+        },
+        reset : (state)=>{
+            state.status= 'not-authenticated';
+            state.uid= null;
+            state.email= null;
+            state.displayName= null;
+            state.photoURL= null
+            state.errorMessage= null;
+            state.errorCode= null;
         }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { login, logout, checkingCredentials } = authSlice.actions
+export const { login, logout, checkingCredentials, reset } = authSlice.actions
