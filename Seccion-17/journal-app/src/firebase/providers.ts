@@ -16,7 +16,8 @@ export const signInWithGoogle = async () => {
             ok: true,
             displayName,
             email,
-            photoURL
+            photoURL,
+            uid
         }
     } catch (error: any) {
         console.log(error)

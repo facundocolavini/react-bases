@@ -46,6 +46,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
      <BrowserRouter>
       <MainApp />
       <TodoApp/> 
+      <Memorize/>
+    <MemoHook/>
      </BrowserRouter>
   </>
 )

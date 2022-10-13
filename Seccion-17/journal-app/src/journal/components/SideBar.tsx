@@ -1,24 +1,25 @@
-import { TurnedInNot } from '@mui/icons-material';
 import {
 	Box,
 	Divider,
-	Drawer, Grid, List,
-	ListItem,
-	ListItemButton,
-	ListItemIcon, ListItemText, Toolbar,
+	Drawer, List, Toolbar,
 	Typography
 } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { FirebaseAuth } from '../../firebase/config';
-import { RootState } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 import { authState } from '../../store/auth';
+import { journalState, startActiveNote } from '../../store/journal';
+import { SideBarListItems } from './';
 
 type Props = {
 	drawerWidth: number;
 };
 export const SideBar = ({ drawerWidth = 240 }: Props) => {
-	const { displayName }: authState = useSelector((state: RootState) => state.auth)
-	
+	const dispatch: AppDispatch = useDispatch();
+
+	const { displayName }: authState = useSelector((state: RootState) => state.auth);
+	const { notes }: journalState = useSelector((state: RootState) => state.journal);
+
+
 	return (
 		<Box
 			component="nav"
@@ -40,23 +41,13 @@ export const SideBar = ({ drawerWidth = 240 }: Props) => {
 						{ displayName }
 					</Typography>
 				</Toolbar>
-				<Divider>
-					<List>
-						{['Enero', 'Febrero', 'Marzo', 'Abril'].map((text: string) => (
-							<ListItem key={text} disablePadding>
-								<ListItemButton>
-									<ListItemIcon>
-										<TurnedInNot />
-									</ListItemIcon>
-									<Grid container>
-										<ListItemText primary={text} />
-										<ListItemText secondary={'Texto secundario'} />
-									</Grid>
-								</ListItemButton>
-							</ListItem>
-						))}
-					</List>
-				</Divider>
+				<Divider /> 
+				<List>
+					{notes.map((note)  => (
+						<SideBarListItems  key={note.id} {...note}/>
+					))}
+				</List>
+				
 			</Drawer>
 		</Box>
 	);

@@ -1,13 +1,12 @@
-import { useEffect, useState, useMemo } from 'react';
-import { formRegisterValidator } from '../../../../../.history/react-bases/Seccion-17/journal-app/src/models/validations/formsValidations_20221006083203';
-import { formCheckedValues,FormValidations } from './../models/validations/formsValidations';
+import { useEffect, useMemo, useState } from 'react';
+import { formCheckedValues, FormValidations } from './../models/validations/formsValidations';
 
 interface inputF {
     name: string,
     value: string
 }
 
-export const useForm = <T extends Object>(initialValues: T, formValidations:FormValidations = <FormValidations>{}) => {
+export const useForm = <T>(initialValues: T, formValidations:FormValidations = <FormValidations>{}) => {
     
     const [formState, setFormState] = useState<typeof initialValues>(initialValues);//{email: '', password: '', displayName: '',} RegisterUser = T
     const [formValidation, setValidations] = useState({} as formCheckedValues);
@@ -15,6 +14,10 @@ export const useForm = <T extends Object>(initialValues: T, formValidations:Form
     useEffect(() => {
         createValidators()
     }, [formState])
+
+    useEffect(()=>{
+        setFormState(initialValues)
+    },[initialValues])
 
     const isFormValid  = useMemo (()=>{
         for (const formValue of Object.keys(formValidation)){
@@ -53,6 +56,7 @@ export const useForm = <T extends Object>(initialValues: T, formValidations:Form
     }
 
     return {
+        initialValues,
         ...formState,
         formState,
         onInputChange,

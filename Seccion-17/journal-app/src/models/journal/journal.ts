@@ -1,5 +1,15 @@
+
+
+export interface GetNotes extends Note {
+    id: string;
+}
+export interface CreateNote extends Note {
+    id?: string
+}
+
+export type GetActiveNote =  GetNotes | null
+
 export interface Note {
-    id: string,
     title: string,
     body: string,
     date: number,
@@ -7,6 +17,6 @@ export interface Note {
 }
 type NoteWithImages = Array<string>
 
-export type NewNoteType = Pick<Note, "title" | "body" | "date" | "id">
+export type NewNoteType = Pick<Note, "title" | "body" | "date" >
 
 export type MessageSavedTypes = 'saved' | 'not-saved';

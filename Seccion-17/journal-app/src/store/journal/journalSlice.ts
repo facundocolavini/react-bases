@@ -1,12 +1,12 @@
 
 import { createSlice } from '@reduxjs/toolkit'
-import { MessageSavedTypes, Note } from '../../models'
+import { GetNotes, MessageSavedTypes, Note } from '../../models'
 
 export interface journalState {
   isSaving: boolean,
   messageSaved: MessageSavedTypes,
-  notes: Array<Note>,
-  active: null | Note
+  notes: Array<GetNotes>,
+  active: GetNotes | null
 }
 
 const initialState: journalState = {
@@ -33,8 +33,8 @@ export const journalSlice = createSlice({
       state.active = action.payload
     },
     /* Establece las notas */
-    setNotes: (state) => {
-
+    setNotes: ( state, action ) => {
+      state.notes = action.payload
     },
     setSavingNote: (state, action) => {
 

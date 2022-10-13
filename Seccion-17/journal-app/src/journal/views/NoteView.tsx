@@ -1,9 +1,36 @@
 import { SaveOutlined } from '@mui/icons-material';
-import { Button, Grid, Typography, TextField } from '@mui/material';
+import { Button, Grid, TextField, Typography } from '@mui/material';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../../hooks';
+import { GetActiveNote } from '../../models';
+import { AppDispatch, RootState } from '../../store';
+import { journalState, setActiveNote } from '../../store/journal';
+import { FormatDate } from '../../utils';
 import { ImageGallery } from '../components';
+
+
 
 type Props = {};
 export const NoteView = (props: Props) => {
+	const dispatch: AppDispatch = useDispatch();
+	const { active:activeNote }: journalState = useSelector((state: RootState) => state.journal);
+	const { date, title, body ,formState, onInputChange,initialValues } = useForm<GetActiveNote>(activeNote)
+	
+	const dateString = useMemo(()=> FormatDate(date)
+	,[date])
+	
+	console.log({formState, activeNote});
+	
+
+
+/* 	useEffect(()=>{
+		if( activeNote !== initialValues ){
+			dispatch(setActiveNote(formState))
+		}
+	},[formState,dispatch]) */
+
+
 	return (
 		<Grid
 			container
@@ -14,7 +41,7 @@ export const NoteView = (props: Props) => {
 		>
 			<Grid item>
 				<Typography fontSize={39} fontWeight="light" color="initial">
-					28 de Agosto
+					{dateString}
 				</Typography>
 			</Grid>
 			<Grid item>
@@ -31,6 +58,9 @@ export const NoteView = (props: Props) => {
 					placeholder="Ingrese un título"
 					label="Título"
 					sx={{ border: 'none', mb: 1 }}
+					name="title"
+					value={title}
+					onChange={onInputChange}
 				/>
 				<TextField
 					type="text"
@@ -41,6 +71,9 @@ export const NoteView = (props: Props) => {
 					label="Título"
 					sx={{ border: 'none', mb: 1 }}
 					minRows={5}
+					name="body"
+					value={body}
+					onChange={onInputChange}
 				/>
 			</Grid>
 			{/* Image Gallery */}
