@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
+import { getActiveNote } from './../helpers/getActiveNote';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { formCheckedValues, FormValidations } from './../models/validations/formsValidations';
+import { GetActiveNote } from '../models';
 
 interface inputF {
     name: string,
     value: string
 }
 
-export const useForm = <T>(initialValues: T, formValidations:FormValidations = <FormValidations>{}) => {
-    
+export const useForm = <T>(initialValues: T, formValidations: FormValidations = <FormValidations>{}) => {
+
     const [formState, setFormState] = useState<typeof initialValues>(initialValues);//{email: '', password: '', displayName: '',} RegisterUser = T
     const [formValidation, setValidations] = useState({} as formCheckedValues);
 
@@ -15,24 +17,24 @@ export const useForm = <T>(initialValues: T, formValidations:FormValidations = <
         createValidators()
     }, [formState])
 
-    useEffect(()=>{
-        setFormState(initialValues)
-    },[initialValues])
+    useEffect(() => {
+        if (initialValues !== formState) setFormState(initialValues)
+    }, [initialValues])
 
-    const isFormValid  = useMemo (()=>{
-        for (const formValue of Object.keys(formValidation)){
-            if(formValidation[formValue  as  keyof formCheckedValues] !== null) return false
+    const isFormValid = useMemo(() => {
+        for (const formValue of Object.keys(formValidation)) {
+            if (formValidation[formValue as keyof formCheckedValues] !== null) return false
         }
         return true
-    },[formValidation])
+    }, [formValidation])
 
-    
+
 
     //Inputs Handlers
     const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value }: inputF = target
         setFormState(
-            (prev) => ({
+            (prev: typeof initialValues) => ({
                 ...prev, // Campos anteriores
                 [name]: value // Valor del input o de campos {email: , password: , displayName:}
             })
@@ -47,10 +49,10 @@ export const useForm = <T>(initialValues: T, formValidations:FormValidations = <
     const createValidators = () => {
         const formCheckedValues = {} as formCheckedValues // {emailValid: null | 'Error Mensaje']}
         // Recorro mi objeto formValidations 
-        for (let formField of Object.keys(formValidations)) { // email , password , displayName
+        for (let formField in formValidations) { // email , password , displayName
             const [fn, errorMessage] = formValidations[formField]; // Obtengo el Array de esa Key [fn,error]
 
-            formCheckedValues[`${formField}Valid` as  keyof formCheckedValues] = fn(formState[formField as keyof typeof initialValues ] ) ? null : errorMessage;
+            formCheckedValues[`${formField}Valid` as keyof formCheckedValues] = fn(formState[formField as keyof typeof initialValues]) ? null : errorMessage;
             setValidations(formCheckedValues)
         }
     }
@@ -61,7 +63,7 @@ export const useForm = <T>(initialValues: T, formValidations:FormValidations = <
         formState,
         onInputChange,
         onResetForm,
-      ...formValidation,
+        ...formValidation,
         isFormValid
     }
 }

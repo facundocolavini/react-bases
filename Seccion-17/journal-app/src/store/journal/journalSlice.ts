@@ -4,14 +4,14 @@ import { GetNotes, MessageSavedTypes, Note } from '../../models'
 
 export interface journalState {
   isSaving: boolean,
-  messageSaved: MessageSavedTypes,
+  messageSaved: string,
   notes: Array<GetNotes>,
   active: GetNotes | null
 }
 
 const initialState: journalState = {
   isSaving: false,
-  messageSaved: 'not-saved',
+  messageSaved: '',
   notes: [],
   active: null,
 }
@@ -31,16 +31,20 @@ export const journalSlice = createSlice({
     /* Nota seleccionada  */
     setActiveNote: (state, action) => {
       state.active = action.payload
+      state.messageSaved = ''
     },
     /* Establece las notas */
-    setNotes: ( state, action ) => {
+    setNotes: (state, action) => {
       state.notes = action.payload
     },
-    setSavingNote: (state, action) => {
-
+    setSavingNote: (state) => {
+      state.isSaving = true;
+      state.messageSaved = ''
     },
-    updateNote: (state, action) => {
-
+    updatedNote: (state, action) => {
+      state.isSaving = false;
+      state.notes = state?.notes.map((note: GetNotes) => (note?.id === action.payload.id ? action.payload : note));
+      state.messageSaved = `${action.payload.title}, actualizada correctamente`
     },
     deleteNoteById: (state, action) => {
 
@@ -49,4 +53,4 @@ export const journalSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addNewEmptyNote, setActiveNote, setNotes, setSavingNote, updateNote, deleteNoteById, savingNewNote } = journalSlice.actions
+export const { addNewEmptyNote, setActiveNote, setNotes, setSavingNote, updatedNote, deleteNoteById, savingNewNote } = journalSlice.actions
