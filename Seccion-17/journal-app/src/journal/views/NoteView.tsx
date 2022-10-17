@@ -1,13 +1,18 @@
-import React, { useEffect, useMemo } from 'react';
-import { SaveOutlined } from '@mui/icons-material';
-import { Button, Grid, TextField, Typography } from '@mui/material';
+import { SaveOutlined, UploadFileOutlined } from '@mui/icons-material';
+import { Button, Grid, IconButton, TextField, Typography } from '@mui/material';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useForm } from '../../hooks';
 import { GetActiveNote } from '../../models';
 import { AppDispatch, RootState } from '../../store';
-import { journalState, setActiveNote, startSaveNote } from '../../store/journal';
+import {
+  journalState,
+  setActiveNote,
+  startSaveNote,
+  startUploadingFiles,
+} from '../../store/journal';
 import { FormatDate } from '../../utils';
 import { ImageGallery } from '../components';
 
@@ -20,13 +25,10 @@ export const NoteView = React.memo(() => {
   }: journalState = useSelector((state: RootState) => state.journal);
   const { date, title, body, formState, onInputChange, initialValues } =
     useForm<GetActiveNote>(activeCurrentNote);
-
+  // Simulando click en mi IconButton para la carga de archivos
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const dateString = useMemo(() => FormatDate(date), [date]);
 
-  // console.log({formState, activeNote});
-  const onSaveNote = () => {
-    dispatch(startSaveNote());
-  };
   useEffect(() => {
     dispatch(setActiveNote(formState));
   }, [formState]);
@@ -37,6 +39,23 @@ export const NoteView = React.memo(() => {
     }
   }, [messageSaved]);
 
+  // console.log({formState, activeNote});
+  const onSaveNote = () => {
+    dispatch(startSaveNote());
+  };
+
+  const onFileInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    if (target.files?.length === 0 || null) return;
+    console.log(target.files);
+
+    dispatch(startUploadingFiles(target?.files as FileList));
+
+    Swal.fire(
+      'Archivos subidos con exito',
+      ` Se adjuntaron ${target.files?.length} archivos `,
+      'success',
+    );
+  };
   return (
     <Grid
       container
@@ -51,6 +70,17 @@ export const NoteView = React.memo(() => {
         </Typography>
       </Grid>
       <Grid item>
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          onChange={onFileInputChange}
+          style={{ display: 'none' }}
+        />
+        <Button color="primary" disabled={isSaving} onClick={() => fileInputRef.current?.click()}>
+          <UploadFileOutlined sx={{ fontSize: 30, mr: 1 }} />
+          Subir Archivo
+        </Button>
         <Button onClick={onSaveNote} disabled={isSaving}>
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Guardar

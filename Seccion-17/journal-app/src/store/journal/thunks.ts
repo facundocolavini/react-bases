@@ -1,6 +1,6 @@
 import { collection, doc, setDoc } from 'firebase/firestore/lite'
 import { FirebaseDB } from "../../firebase/config"
-import { getActiveNote, loadNotes } from "../../helpers"
+import { fileUploadToCloudDinary, getActiveNote, loadNotes, promiseAll } from "../../helpers"
 import { CreateNote } from "../../models"
 import { AppThunk } from "../store"
 import { addNewEmptyNote, savingNewNote, setActiveNote, setNotes, setSavingNote, updatedNote } from "./journalSlice"
@@ -60,3 +60,26 @@ export const startSaveNote = (): AppThunk => {
         dispatch(updatedNote(activeCurrentNote))
     }
 }
+
+
+// UploadFiles con Promise normal y Promise All
+export const startUploadingFiles = (files: FileList): AppThunk => {
+    return async (dispatch) => {
+        dispatch(setSavingNote()) // Estado de carga bloquea botones
+        console.log('UPLOAD FILES');
+        // Subir un archivo a la vez
+        // await fileUploadToCloudDinary(files[0])
+
+        // Subir varios archivos en multiples peticiones de forma simultanea
+        const fileUploadPromises: Array<Promise<string>> = [];
+        for (const file of files) {
+            fileUploadPromises.push(fileUploadToCloudDinary(file))
+        }
+
+
+        const photosUrls = await promiseAll(fileUploadPromises);
+        console.log(photosUrls);
+
+    }
+}
+
