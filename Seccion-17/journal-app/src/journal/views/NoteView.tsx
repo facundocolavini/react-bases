@@ -1,5 +1,5 @@
-import { SaveOutlined, UploadFileOutlined } from '@mui/icons-material';
-import { Button, Grid, IconButton, TextField, Typography } from '@mui/material';
+import { DeleteOutline, SaveOutlined, UploadFileOutlined } from '@mui/icons-material';
+import { Button, Grid, TextField, Typography } from '@mui/material';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
@@ -10,8 +10,9 @@ import { AppDispatch, RootState } from '../../store';
 import {
   journalState,
   setActiveNote,
+  startDeleteNote,
   startSaveNote,
-  startUploadingFiles,
+  startUploadingFiles
 } from '../../store/journal';
 import { FormatDate } from '../../utils';
 import { ImageGallery } from '../components';
@@ -23,6 +24,7 @@ export const NoteView = React.memo(() => {
     messageSaved,
     isSaving,
   }: journalState = useSelector((state: RootState) => state.journal);
+  
   const { date, title, body, formState, onInputChange, initialValues } =
     useForm<GetActiveNote>(activeCurrentNote);
   // Simulando click en mi IconButton para la carga de archivos
@@ -56,6 +58,10 @@ export const NoteView = React.memo(() => {
       'success',
     );
   };
+
+  const onDelete = () =>{
+    dispatch(startDeleteNote())
+  }
   return (
     <Grid
       container
@@ -113,7 +119,17 @@ export const NoteView = React.memo(() => {
         />
       </Grid>
       {/* Image Gallery */}
-      <ImageGallery />
+      <Grid container justifyContent='end'>
+        <Button 
+          onClick={ onDelete }
+          sx= {{ mt: 2}}
+          color="error"
+        >
+          <DeleteOutline/>
+          Borrar
+        </Button>
+      </Grid>,
+      <ImageGallery images={ activeCurrentNote?.imageUrls !== undefined ? activeCurrentNote.imageUrls : [] as Array<string>} />
     </Grid>
   );
 });

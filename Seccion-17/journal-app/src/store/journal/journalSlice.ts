@@ -1,12 +1,12 @@
 
 import { createSlice } from '@reduxjs/toolkit'
-import { GetNotes, MessageSavedTypes, Note } from '../../models'
+import { GetNotes, GetActiveNote, Note } from '../../models'
 
 export interface journalState {
   isSaving: boolean,
   messageSaved: string,
   notes: Array<GetNotes>,
-  active: GetNotes | null
+  active: GetActiveNote | null
 }
 
 const initialState: journalState = {
@@ -47,14 +47,25 @@ export const journalSlice = createSlice({
       state.messageSaved = `${action.payload.title}, actualizada correctamente`
     },
     deleteNoteById: (state, action) => {
-
+      state.isSaving = false;
+      state.messageSaved = '';
+      state.active = null;
+      
+      state.notes = state.notes.filter(note => note.id !== action.payload )
     },
     setPhotosToActiveNote: (state, action) => {
-      state?.active.imageUrls = [, ...action.payload]
+      if(state.active === null) return
+      state.active.imageUrls = [...state.active.imageUrls , ...action.payload]
       state.isSaving = false;
+    },
+    clearNotesLogOut: (state) =>{
+      state.isSaving  = false,
+      state.messageSaved = '',
+      state.notes = [],
+      state.active = null
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addNewEmptyNote, setActiveNote, setNotes, setSavingNote, updatedNote, deleteNoteById, savingNewNote, setPhotosToActiveNote } = journalSlice.actions
+export const { addNewEmptyNote, setActiveNote, setNotes, setSavingNote, updatedNote, deleteNoteById, savingNewNote, setPhotosToActiveNote, clearNotesLogOut } = journalSlice.actions

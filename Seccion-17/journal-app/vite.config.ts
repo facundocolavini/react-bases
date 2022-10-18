@@ -8,5 +8,5 @@ export default defineConfig({
     proxy: {
     local: 'https://localhost:3000',
   }
-}
+},
 })

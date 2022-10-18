@@ -1,4 +1,4 @@
-import { Box, Divider, Drawer, List, Toolbar, Typography } from '@mui/material';
+import { Box, Divider, Drawer, List, Toolbar, Typography, Avatar, Stack  } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { authState } from '../../store/auth';
@@ -11,9 +11,9 @@ type Props = {
 export const SideBar = ({ drawerWidth = 240 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { displayName }: authState = useSelector((state: RootState) => state.auth);
+  const { displayName, photoURL }: authState = useSelector((state: RootState) => state.auth);
   const { notes }: journalState = useSelector((state: RootState) => state.journal);
-
+  console.log(photoURL)
   return (
     <Box
       component="nav"
@@ -31,9 +31,13 @@ export const SideBar = ({ drawerWidth = 240 }: Props) => {
         }}
       >
         <Toolbar>
+          <Stack direction="row" spacing={2} sx={{ mr: 2}}>
+            <Avatar alt="Avatar photo" src={`${photoURL}`} />
+          </Stack>
           <Typography variant="h6" noWrap component="div">
-            {displayName}
+            {displayName} 
           </Typography>
+
         </Toolbar>
         <Divider />
         <List>

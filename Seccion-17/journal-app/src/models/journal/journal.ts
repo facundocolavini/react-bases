@@ -12,11 +12,13 @@ export type GetActiveNote = GetNotes | null
 export interface Note {
     title: string,
     body: string,
-    date: number | null,
-    imageUrls?: NoteWithImages
+    date: number,
+    imageUrls:Array<string> 
 }
-type NoteWithImages = Array<string>
 
-export type NewNoteType = Pick<Note, "title" | "body" | "date">
+
+export type GetPropFromNote = Pick<Note, "title" | "body" | "date" | "imageUrls"> ;
 
 export type MessageSavedTypes = 'saved' | 'not-saved';
+
+// Generics 

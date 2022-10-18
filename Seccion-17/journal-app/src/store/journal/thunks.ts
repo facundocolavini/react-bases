@@ -1,9 +1,9 @@
-import { collection, doc, setDoc } from 'firebase/firestore/lite'
+import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore/lite'
 import { FirebaseDB } from "../../firebase/config"
 import { fileUploadToCloudDinary, getActiveNote, loadNotes, promiseAll } from "../../helpers"
 import { CreateNote } from "../../models"
 import { AppThunk } from "../store"
-import { addNewEmptyNote, savingNewNote, setActiveNote, setNotes, setSavingNote, updatedNote } from "./journalSlice"
+import { addNewEmptyNote, deleteNoteById, savingNewNote, setActiveNote, setNotes, setPhotosToActiveNote, setSavingNote, updatedNote } from "./journalSlice"
 
 export const startNewNote = (): AppThunk => {
     return async (dispatch, getState) => {
@@ -14,6 +14,7 @@ export const startNewNote = (): AppThunk => {
             title: '',
             body: '',
             date: new Date().getTime(),
+            imageUrls: []
         }
         const newDoc = doc(collection(FirebaseDB, `${uid}/journal/notes`))
         newNote.id = newDoc.id;
@@ -26,8 +27,8 @@ export const startNewNote = (): AppThunk => {
 
 export const startLoadingNotes = (): AppThunk => {
     return async (dispatch, getState) => {
-        const { uid } = getState().auth;
-        if (!uid) throw new Error("El UID del usuario no existe");
+            const { uid } = getState().auth;
+            if (!uid) throw new Error("El UID del usuario no existe");
         const notes = await loadNotes(uid)
         dispatch(setNotes(notes));
     }
@@ -56,7 +57,6 @@ export const startSaveNote = (): AppThunk => {
         const docRef = doc(FirebaseDB, `${uid}/journal/notes/${activeCurrentNote?.id}`);
         //Grabamos en Firebase
         await setDoc(docRef, updateNoteActive, { merge: true })
-        console.log(activeCurrentNote)
         dispatch(updatedNote(activeCurrentNote))
     }
 }
@@ -78,8 +78,26 @@ export const startUploadingFiles = (files: FileList): AppThunk => {
 
 
         const photosUrls = await promiseAll(fileUploadPromises);
-        console.log(photosUrls);
+        dispatch(setPhotosToActiveNote(photosUrls))
 
     }
 }
 
+
+export const startDeleteNote = () :AppThunk=>{
+    return async (dispatch,getState) =>{
+        dispatch(setSavingNote())
+
+        const { uid } = getState().auth;
+        const { active: activeCurrentNote } = getState().journal;
+
+     
+        // Eliminamos una propiedad de un objetco
+        //delete updateNoteActive.id
+        const docRef = doc(FirebaseDB, `${uid}/journal/notes/${activeCurrentNote?.id}`);
+        //Grabamos en Firebase
+        await deleteDoc(docRef)        
+        dispatch(deleteNoteById(activeCurrentNote?.id))
+
+    }
+}

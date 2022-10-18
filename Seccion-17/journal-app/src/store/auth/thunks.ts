@@ -1,5 +1,6 @@
 import { loginUserWithEmailAndPassword, logOutFirebase, registerUserWithEmailAndPassword, signInWithGoogle } from "../../firebase/providers"
 import { RegisterUser, LoginUser } from "../../models"
+import { clearNotesLogOut } from "../journal"
 import { AppThunk } from "../store"
 import { checkingCredentials, login, logout, reset } from "./authSlices"
 
@@ -52,5 +53,6 @@ export const startLogOutUser = (): AppThunk<void> =>{
     return async (dispatch) =>{
         await logOutFirebase()
         dispatch(logout({}))
+        dispatch(clearNotesLogOut())
     }
 }

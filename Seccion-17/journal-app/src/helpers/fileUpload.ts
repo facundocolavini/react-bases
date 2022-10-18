@@ -23,7 +23,6 @@ export interface RespFileUploaded {
 
 export const fileUploadToCloudDinary = async (file: File): Promise<string> => {
 
-
     if (!file) throw new Error(`File not found to upload`);
     const cloudUrl = `${import.meta.env.VITE_REACT_APP_CLOUDINARY_BASE_URL}/upload`
     const formData = new FormData();

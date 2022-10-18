@@ -45,7 +45,6 @@ export const LoginPage = (): JSX.Element => {
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              id=""
               label="Correo"
               type="email"
               placeholder="correo@gmail.com"
@@ -59,7 +58,6 @@ export const LoginPage = (): JSX.Element => {
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              id=""
               label="Contraseña"
               type="password"
               placeholder="Contraseña"
