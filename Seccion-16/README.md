@@ -19,5 +19,9 @@ Vamos a realizar mocks con nuestro local storage ya que a veces nuestro aplicaci
 ### Instalacion de ambiente de prueba en una linea
 
 ```bash
-npm install --save-dev @babel/preset-typescript @babel/preset-react @babel/preset-env @types/jest @testing-library/react jest typescript ts-jest @types/jest jest-environment-jsdom  whatwg-fetch
+//NPM
+npm install --save-dev @babel/preset-typescript @babel/preset-react @babel/preset-env @types/jest @testing-library/react jest typescript ts-jest jest-environment-jsdom  whatwg-fetch
+
+YARN
+yarn add --dev @babel/preset-typescript @babel/preset-react @babel/preset-env @types/jest @testing-library/react jest typescript ts-jest  jest-environment-jsdom  whatwg-fetch
 ```

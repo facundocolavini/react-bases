@@ -27,8 +27,8 @@ export const startNewNote = (): AppThunk => {
 
 export const startLoadingNotes = (): AppThunk => {
     return async (dispatch, getState) => {
-            const { uid } = getState().auth;
-            if (!uid) throw new Error("El UID del usuario no existe");
+        const { uid } = getState().auth;
+        if (!uid) throw new Error("El UID del usuario no existe");
         const notes = await loadNotes(uid)
         dispatch(setNotes(notes));
     }
@@ -71,10 +71,11 @@ export const startUploadingFiles = (files: FileList): AppThunk => {
         // await fileUploadToCloudDinary(files[0])
 
         // Subir varios archivos en multiples peticiones de forma simultanea
-        const fileUploadPromises: Array<Promise<string>> = [];
+        const fileUploadPromises: Array<Promise<string | null>> = [];
         for (const file of files) {
             fileUploadPromises.push(fileUploadToCloudDinary(file))
         }
+
 
 
         const photosUrls = await promiseAll(fileUploadPromises);
@@ -84,19 +85,19 @@ export const startUploadingFiles = (files: FileList): AppThunk => {
 }
 
 
-export const startDeleteNote = () :AppThunk=>{
-    return async (dispatch,getState) =>{
+export const startDeleteNote = (): AppThunk => {
+    return async (dispatch, getState) => {
         dispatch(setSavingNote())
 
         const { uid } = getState().auth;
         const { active: activeCurrentNote } = getState().journal;
 
-     
+
         // Eliminamos una propiedad de un objetco
         //delete updateNoteActive.id
         const docRef = doc(FirebaseDB, `${uid}/journal/notes/${activeCurrentNote?.id}`);
         //Grabamos en Firebase
-        await deleteDoc(docRef)        
+        await deleteDoc(docRef)
         dispatch(deleteNoteById(activeCurrentNote?.id))
 
     }

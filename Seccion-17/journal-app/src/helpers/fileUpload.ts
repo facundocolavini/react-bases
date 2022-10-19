@@ -21,10 +21,13 @@ export interface RespFileUploaded {
     original_filename: string;
 }
 
-export const fileUploadToCloudDinary = async (file: File): Promise<string> => {
+export const fileUploadToCloudDinary = async (file: File): Promise<string | null> => {
 
-    if (!file) throw new Error(`File not found to upload`);
-    const cloudUrl = `${import.meta.env.VITE_REACT_APP_CLOUDINARY_BASE_URL}/upload`
+
+    // if (!file) throw new Error(`File not found to upload`);
+    if (!file) null;
+    const baseUrl = import.meta.env.VITE_REACT_APP_CLOUDINARY_BASE_URL
+    const cloudUrl = `https://api.cloudinary.com/v1_1/dmryevz5s/upload`
     const formData = new FormData();
     // Agregamos a mi form-data los parametros que le enviamos atravez del body en mi peticion post
     formData.append('upload_preset', 'react-journal');
@@ -43,8 +46,10 @@ export const fileUploadToCloudDinary = async (file: File): Promise<string> => {
         return cloudResp.secure_url;
 
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
 
-        throw new Error(error?.message)
+        // throw new Error(error?.message)
+        return null;
     }
+
 }
