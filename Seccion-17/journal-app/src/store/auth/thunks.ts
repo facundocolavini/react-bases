@@ -4,7 +4,7 @@ import { clearNotesLogOut } from "../journal"
 import { AppThunk } from "../store"
 import { checkingCredentials, login, logout, reset } from "./authSlices"
 
-export const checkingUserAuthentication = (email: string, password: string): AppThunk => {
+export const checkingUserAuthentication = (): AppThunk => {
     return async (dispatch) => {
         // Dispatch de mi accion para poner mi status en checking
         dispatch(checkingCredentials())
@@ -17,7 +17,7 @@ export const startGoogleSignIn = (): AppThunk => {
         // Chequea las credenciales
         dispatch(checkingCredentials())
         const result = await signInWithGoogle();
-        console.log(result)
+        console.log({result})
         // Cambiamos el status a authenticated cuando se autorize al usuario
         //Si sale mal y no se autentica sale un error
         if(!result.ok) return dispatch(logout(result));
@@ -45,7 +45,7 @@ export const startLoginWithEmailAndPassword = ( { email:mail, password }: LoginU
         dispatch(checkingCredentials())
         const { ok ,uid ,errorMessage ,photoURL ,displayName ,email } = await loginUserWithEmailAndPassword( {email:mail, password })
         if(!ok) return dispatch(logout({ errorMessage }));
-        return dispatch(login({ uid,displayName,email,photoURL }))
+        return dispatch(login({ok,uid,displayName,email,photoURL }))
     }
 }
 
