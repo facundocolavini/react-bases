@@ -1,3 +1,4 @@
+import { getEnviroments } from './../helpers/getEnviroments';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
@@ -6,15 +7,19 @@ import { getFirestore } from 'firebase/firestore/lite';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+
+const env = getEnviroments()
+
 const firebaseConfig = {
-    apiKey:"AIzaSyCuh42BwDGok3cfjzhbgTuRsjQ-HLCJopw",
-    authDomain:"journalapp-bab0e.firebaseapp.com",
-    projectId:"journalapp-bab0e",
-    storageBucket:"journalapp-bab0e.appspot.com",
-    messagingSenderId:"489898018014",
-    appId:"1:489898018014:web:b67cfd1b1757b4c66c2e4f",
+    apiKey: import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_REACT_APP_FIREBASE_AUTHDOMAIN,
+    projectId: import.meta.env.VITE_REACT_APP_FIREBASE_PROJECTID,
+    storageBucket: import.meta.env.VITE_REACT_APP_FIREBASE_STORAGEBUCKET,
+    messagingSenderId: import.meta.env.VITE_REACT_APP_FIREBASE_MESSAGINGSENDERID,
+    appId: import.meta.env.VITE_REACT_APP_FIREBASE_APPID
 };
 
+console.log(import.meta.env)
 // Initialize Firebase
 export const FirebaseApp = initializeApp(firebaseConfig);
 export const FirebaseAuth = getAuth(FirebaseApp);
